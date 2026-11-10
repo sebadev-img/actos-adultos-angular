@@ -1,0 +1,27 @@
+<div class="dialog-container">
+  <div class="dialog-icon">
+    <mat-icon>mark_email_read</mat-icon>
+  </div>
+
+  <h2 mat-dialog-title>¡Cuenta creada correctamente!</h2>
+
+  <mat-dialog-content>
+    <p>Enviamos un correo electrónico a:</p>
+
+    <div class="email-box">
+      {{ data.email }}
+    </div>
+
+    <p>Para activar tu cuenta, abrí el correo y hacé clic en el enlace de confirmación.</p>
+
+    <p class="help-text">
+      Si no encontrás el mensaje, revisá la carpeta de correo no deseado o spam.
+    </p>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="center">
+    <button mat-flat-button (click)="goToLogin()">Ir a iniciar sesión</button>
+
+    <button mat-button (click)="close()">Cerrar</button>
+  </mat-dialog-actions>
+</div>

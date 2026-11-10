@@ -1,0 +1,270 @@
+<div class="inscriptos-container">
+  <!-- ENCABEZADO -->
+  <div class="page-header">
+    <div>
+      <button mat-button type="button" class="back-button" (click)="volver()">
+        <mat-icon>arrow_back</mat-icon>
+        Volver a cargos
+      </button>
+
+      <h1>Inscriptos al cargo</h1>
+
+      <p>Consultá los docentes inscriptos al cargo seleccionado.</p>
+    </div>
+  </div>
+
+  <!-- DETALLE DEL CARGO -->
+  @if (cargo) {
+    <section class="cargo-card">
+      <div class="cargo-card-header">
+        <div>
+          <span class="cargo-label"> Cargo </span>
+
+          <h2>
+            {{ cargo.descripcion }}
+          </h2>
+
+          <p>
+            {{ cargo.institucionNombre }}
+          </p>
+        </div>
+
+        <span class="llamado-badge">
+          Llamado
+          {{ cargo.numeroLlamado }}
+        </span>
+      </div>
+
+      <div class="cargo-info-grid">
+        <!-- ACTO -->
+        <div class="info-item">
+          <span>Acto</span>
+
+          <strong>
+            @if (cargo.actoNumero) {
+              {{ cargo.actoNumero }} -
+            }
+
+            {{ cargo.actoDescripcion }}
+          </strong>
+        </div>
+
+        <!-- INSTITUCIÓN -->
+        <div class="info-item">
+          <span>Institución</span>
+
+          <strong>
+            {{ cargo.institucionNombre }}
+          </strong>
+        </div>
+
+        <!-- ORIENTACIÓN -->
+        <div class="info-item">
+          <span>Orientación</span>
+
+          <strong>
+            {{ cargo.orientacionDescripcion }}
+          </strong>
+        </div>
+
+        <!-- TURNO -->
+        <div class="info-item">
+          <span>Turno</span>
+
+          <strong>
+            {{ getNombreTurno(cargo.turno) }}
+          </strong>
+        </div>
+
+        <!-- REVISTA -->
+        <div class="info-item">
+          <span>Revista</span>
+
+          <strong>
+            {{ getNombreRevista(cargo.revista) }}
+          </strong>
+        </div>
+
+        <!-- CURSO -->
+        <div class="info-item">
+          <span> Curso / División </span>
+
+          <strong>
+            {{ cargo.curso }}° -
+            {{ cargo.division }}
+          </strong>
+        </div>
+
+        <!-- CARGA HORARIA -->
+        <div class="info-item">
+          <span> Carga horaria </span>
+
+          <strong>
+            {{ cargo.cargaHoraria }}
+          </strong>
+        </div>
+
+        <!-- CÓDIGO -->
+        <div class="info-item">
+          <span>Código</span>
+
+          <strong>
+            {{ cargo.codigo }}
+          </strong>
+        </div>
+      </div>
+    </section>
+  }
+
+  <!-- LISTADO -->
+  <section class="table-card">
+    <div class="table-header">
+      <div>
+        <h2>Listado de inscriptos</h2>
+
+        <p>
+          {{ totalItems }}
+
+          {{ totalItems === 1 ? 'inscripto' : 'inscriptos' }}
+        </p>
+      </div>
+
+      <button
+        mat-icon-button
+        type="button"
+        aria-label="Actualizar listado"
+        (click)="cargarInscriptos()"
+      >
+        <mat-icon>refresh</mat-icon>
+      </button>
+    </div>
+
+    <!-- ERROR -->
+    @if (errorMessage) {
+      <div class="table-error" role="alert">
+        <mat-icon> error_outline </mat-icon>
+
+        <span>
+          {{ errorMessage }}
+        </span>
+
+        <button mat-button type="button" (click)="cargarInscriptos()">Reintentar</button>
+      </div>
+    }
+
+    <!-- LOADING -->
+    @if (loading) {
+      <div class="loading-container">
+        <mat-spinner diameter="32"></mat-spinner>
+
+        <span> Cargando inscriptos... </span>
+      </div>
+
+    } @else if (!errorMessage) {
+      @if (inscripciones.length > 0) {
+        <div class="table-responsive">
+          <table mat-table [dataSource]="inscripciones" class="inscriptos-table">
+            <!-- DNI -->
+            <ng-container matColumnDef="dni">
+              <th mat-header-cell *matHeaderCellDef>DNI</th>
+
+              <td mat-cell *matCellDef="let inscripcion">
+                {{ inscripcion.postulante.dni }}
+              </td>
+            </ng-container>
+
+            <!-- NOMBRE -->
+            <ng-container matColumnDef="nombreCompleto">
+              <th mat-header-cell *matHeaderCellDef>Nombre completo</th>
+
+              <td mat-cell *matCellDef="let inscripcion">
+                {{ inscripcion.postulante.nombreCompleto }}
+              </td>
+            </ng-container>
+
+            <!-- TELÉFONO -->
+            <ng-container matColumnDef="telefono">
+              <th mat-header-cell *matHeaderCellDef>Teléfono</th>
+
+              <td mat-cell *matCellDef="let inscripcion">
+                {{ inscripcion.postulante.telefono || '-' }}
+              </td>
+            </ng-container>
+
+            <!-- EMAIL -->
+            <ng-container matColumnDef="email">
+              <th mat-header-cell *matHeaderCellDef>Email</th>
+
+              <td mat-cell *matCellDef="let inscripcion">
+                {{ inscripcion.postulante.email || '-' }}
+              </td>
+            </ng-container>
+
+            <!-- PUNTAJE -->
+            <ng-container matColumnDef="puntajeJunta">
+              <th mat-header-cell *matHeaderCellDef>Puntaje Junta</th>
+
+              <td mat-cell *matCellDef="let inscripcion">
+                @if (inscripcion.puntajeJunta !== null && inscripcion.puntajeJunta !== undefined) {
+                  <strong>
+                    {{ inscripcion.puntajeJunta }}
+                  </strong>
+                } @else {
+                  -
+                }
+              </td>
+            </ng-container>
+
+            <!-- CARÁCTER -->
+            <ng-container matColumnDef="caracter">
+              <th mat-header-cell *matHeaderCellDef>Carácter</th>
+
+              <td mat-cell *matCellDef="let inscripcion">
+                {{ getNombreCaracter(inscripcion.caracter) }}
+              </td>
+            </ng-container>
+
+            <!-- ESTADO -->
+            <ng-container matColumnDef="estado">
+              <th mat-header-cell *matHeaderCellDef>Estado</th>
+
+              <td mat-cell *matCellDef="let inscripcion">
+                <span
+                  class="estado-badge"
+                  [class.inscripto]="inscripcion.estadoInscripcion === 0"
+                  [class.asignado]="inscripcion.estadoInscripcion === 1"
+                >
+                  {{ getNombreEstado(inscripcion.estadoInscripcion) }}
+                </span>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+        </div>
+      } @else {
+        <div class="empty-state">
+          <mat-icon> group_off </mat-icon>
+
+          <h3>No hay inscriptos</h3>
+
+          <p>Todavía no se registraron postulaciones para este cargo.</p>
+        </div>
+      }
+    }
+
+    @if (totalItems > 0) {
+      <mat-paginator
+        [length]="totalItems"
+        [pageIndex]="page - 1"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="[10, 20, 50, 100]"
+        [showFirstLastButtons]="true"
+        (page)="cambiarPagina($event)"
+      >
+      </mat-paginator>
+    }
+  </section>
+</div>

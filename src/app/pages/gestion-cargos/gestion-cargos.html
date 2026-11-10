@@ -1,0 +1,348 @@
+<div class="gestion-cargos-container">
+  <!-- ENCABEZADO -->
+  <div class="page-header">
+    <h1>Gestión de Cargos</h1>
+    <p>Consultá los actos disponibles y gestioná los cargos de tu institución.</p>
+  </div>
+
+  <div class="table-card">
+    <!-- FILTROS -->
+    <div class="filters">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Buscar acto</mat-label>
+
+        <input
+          matInput
+          [(ngModel)]="search"
+          (keyup.enter)="buscar()"
+          placeholder="Número o descripción"
+          maxlength="100"
+        />
+
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="estado-field">
+        <mat-label>Disponibilidad de carga</mat-label>
+
+        <mat-select [(ngModel)]="puedeCargarCargos">
+          <mat-option [value]="null"> Todos los actos </mat-option>
+
+          <mat-option [value]="true"> Disponibles para cargar cargos </mat-option>
+
+          <mat-option [value]="false"> No disponibles para cargar cargos </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="filter-actions">
+        <button mat-flat-button type="button" (click)="buscar()">
+          <mat-icon>search</mat-icon>
+          <span>Buscar</span>
+        </button>
+
+        <button mat-stroked-button type="button" (click)="limpiarFiltros()">Limpiar</button>
+      </div>
+    </div>
+
+    <!-- ERROR -->
+    @if (errorMessage) {
+      <div class="table-error" role="alert">
+        <mat-icon>error_outline</mat-icon>
+        <span>{{ errorMessage }}</span>
+
+        <button mat-button type="button" (click)="cargarActos()">Reintentar</button>
+      </div>
+    }
+
+    <!-- CARGANDO -->
+    @if (loading) {
+      <div class="loading-container">
+        <mat-spinner diameter="32"></mat-spinner>
+        <span>Cargando actos...</span>
+      </div>
+    }
+
+    <!-- TABLA -->
+    <div class="table-responsive">
+      <table mat-table [dataSource]="actos" class="actos-table">
+        <!-- NUMERO -->
+        <ng-container matColumnDef="numero">
+          <th mat-header-cell *matHeaderCellDef>Número</th>
+
+          <td mat-cell *matCellDef="let acto">
+            {{ acto.numero }}
+          </td>
+        </ng-container>
+
+        <!-- DESCRIPCION -->
+        <ng-container matColumnDef="descripcion">
+          <th mat-header-cell *matHeaderCellDef>Descripción</th>
+
+          <td mat-cell *matCellDef="let acto">
+            {{ acto.descripcion }}
+          </td>
+        </ng-container>
+
+        <!-- FECHA INICIO -->
+        <ng-container matColumnDef="inicio">
+          <th mat-header-cell *matHeaderCellDef>Inicio</th>
+
+          <td mat-cell *matCellDef="let acto">
+            {{ acto.inicio | date: 'dd/MM/yyyy HH:mm' }}
+          </td>
+        </ng-container>
+
+        <!-- FECHA FIN -->
+        <ng-container matColumnDef="fin">
+          <th mat-header-cell *matHeaderCellDef>Fin</th>
+
+          <td mat-cell *matCellDef="let acto">
+            {{ acto.fin | date: 'dd/MM/yyyy HH:mm' }}
+          </td>
+        </ng-container>
+
+        <!-- DISPONIBILIDAD PARA CARGAR CARGOS -->
+        <ng-container matColumnDef="puedeCargarCargos">
+          <th mat-header-cell *matHeaderCellDef>Carga de cargos</th>
+
+          <td mat-cell *matCellDef="let acto">
+            @if (acto.puedeCargarCargos) {
+              <span class="estado-badge habilitado">
+                <mat-icon>check_circle</mat-icon>
+                Habilitada
+              </span>
+            } @else {
+              <span class="estado-badge deshabilitado">
+                <mat-icon>block</mat-icon>
+                Deshabilitada
+              </span>
+            }
+          </td>
+        </ng-container>
+
+        <!-- ACCIONES -->
+        <ng-container matColumnDef="acciones">
+          <th mat-header-cell *matHeaderCellDef>Acciones</th>
+
+          <td mat-cell *matCellDef="let acto">
+            <button mat-stroked-button type="button" (click)="verCargos(acto)">
+              <mat-icon>list_alt</mat-icon>
+              <span>Ver cargos</span>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+
+    <!-- SIN RESULTADOS -->
+    @if (!loading && !errorMessage && actos.length === 0) {
+      <div class="empty-state">
+        <mat-icon>event_busy</mat-icon>
+
+        <h3>No se encontraron actos</h3>
+
+        <p>Probá modificando los filtros de búsqueda.</p>
+      </div>
+    }
+
+    <!-- PAGINADOR -->
+    <mat-paginator
+      [length]="totalItems"
+      [pageIndex]="page - 1"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="[5, 10, 25, 50]"
+      [showFirstLastButtons]="true"
+      (page)="cambiarPagina($event)"
+    >
+    </mat-paginator>
+  </div>
+
+  <!-- SEGUNDA TABLA: CARGOS DEL ACTO -->
+  @if (actoSeleccionado; as acto) {
+    <div class="selected-act-card">
+      <!-- ENCABEZADO -->
+      <div class="cargos-header">
+        <div class="cargos-title">
+          <h2>Cargos del acto {{ acto.numero }}</h2>
+          <p>{{ acto.descripcion }}</p>
+        </div>
+
+        <div class="cargos-header-actions">
+          <button
+            mat-flat-button
+            type="button"
+            [disabled]="!acto.puedeCargarCargos"
+            (click)="agregarCargo()"
+          >
+            <mat-icon>add</mat-icon>
+            <span>Agregar cargo</span>
+          </button>
+
+          <button
+            mat-icon-button
+            type="button"
+            aria-label="Cerrar cargos"
+            (click)="cerrarSeleccion()"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <!-- DISPONIBILIDAD -->
+      <div class="carga-status">
+        @if (acto.puedeCargarCargos) {
+          <span class="estado-badge habilitado">
+            <mat-icon>check_circle</mat-icon>
+            Carga de cargos habilitada
+          </span>
+        } @else {
+          <span class="estado-badge deshabilitado">
+            <mat-icon>block</mat-icon>
+            Carga de cargos cerrada
+          </span>
+
+          <p>Ya no se pueden agregar ni editar cargos en este acto.</p>
+        }
+      </div>
+
+      @if (cargoErrorMessage) {
+        <div class="table-error" role="alert">
+          <mat-icon>error_outline</mat-icon>
+          <span>{{ cargoErrorMessage }}</span>
+
+          <button mat-button type="button" (click)="cargarCargos()">Reintentar</button>
+        </div>
+      }
+
+      @if (loadingCargos) {
+        <div class="loading-container">
+          <mat-spinner diameter="32"></mat-spinner>
+          <span>Cargando cargos...</span>
+        </div>
+      }
+
+      <!-- TABLA -->
+      <div class="cargos-table-responsive">
+        <table mat-table [dataSource]="cargos" class="cargos-table">
+          <!-- DESCRIPCION -->
+          <ng-container matColumnDef="descripcion">
+            <th mat-header-cell *matHeaderCellDef>Descripción</th>
+
+            <td mat-cell *matCellDef="let cargo">
+              {{ cargo.descripcion }}
+            </td>
+          </ng-container>
+
+          <!-- ORIENTACION -->
+          <ng-container matColumnDef="orientacion">
+            <th mat-header-cell *matHeaderCellDef>Orientación</th>
+
+            <td mat-cell *matCellDef="let cargo">
+              {{ cargo.orientacionDescripcion }}
+            </td>
+          </ng-container>
+
+          <!-- TURNO -->
+          <ng-container matColumnDef="turno">
+            <th mat-header-cell *matHeaderCellDef>Turno</th>
+
+            <td mat-cell *matCellDef="let cargo">
+              {{ getNombreTurno(cargo.turno) }}
+            </td>
+          </ng-container>
+
+          <!-- CODIGO -->
+          <ng-container matColumnDef="codigo">
+            <th mat-header-cell *matHeaderCellDef>Código</th>
+
+            <td mat-cell *matCellDef="let cargo">
+              {{ cargo.codigo }}
+            </td>
+          </ng-container>
+
+          <!-- CURSO -->
+          <ng-container matColumnDef="curso">
+            <th mat-header-cell *matHeaderCellDef>Curso</th>
+
+            <td mat-cell *matCellDef="let cargo">
+              {{ cargo.curso }}
+            </td>
+          </ng-container>
+
+          <!-- DIVISION -->
+          <ng-container matColumnDef="division">
+            <th mat-header-cell *matHeaderCellDef>División</th>
+
+            <td mat-cell *matCellDef="let cargo">
+              {{ cargo.division }}
+            </td>
+          </ng-container>
+
+          <!-- CARGA HORARIA -->
+          <ng-container matColumnDef="cargaHoraria">
+            <th mat-header-cell *matHeaderCellDef>Carga horaria</th>
+
+            <td mat-cell *matCellDef="let cargo">
+              {{ cargo.cargaHoraria }}
+            </td>
+          </ng-container>
+
+          <!-- ACCIONES -->
+          <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef>Acciones</th>
+
+            <td mat-cell *matCellDef="let cargo">
+              <button
+                mat-icon-button
+                type="button"
+                matTooltip="Ver inscriptos"
+                aria-label="Ver inscriptos"
+                (click)="verInscriptos(cargo)"
+              >
+                <mat-icon>groups</mat-icon>
+              </button>
+
+              <button
+                mat-icon-button
+                type="button"
+                matTooltip="Editar cargo"
+                aria-label="Editar cargo"
+                [disabled]="!acto.puedeCargarCargos"
+                (click)="editarCargo(cargo)"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedCargoColumns"></tr>
+
+          <tr mat-row *matRowDef="let row; columns: displayedCargoColumns"></tr>
+        </table>
+      </div>
+
+      @if (!loadingCargos && !cargoErrorMessage && cargos.length === 0) {
+        <div class="empty-state">
+          <mat-icon>work_off</mat-icon>
+          <p>No hay cargos registrados para este acto.</p>
+        </div>
+      }
+
+      <!-- PAGINADOR -->
+      <mat-paginator
+        [length]="cargoTotalItems"
+        [pageIndex]="cargoPage - 1"
+        [pageSize]="cargoPageSize"
+        [pageSizeOptions]="[50]"
+        [showFirstLastButtons]="true"
+        (page)="cambiarPaginaCargos($event)"
+      >
+      </mat-paginator>
+    </div>
+  }
+</div>

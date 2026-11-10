@@ -1,0 +1,25 @@
+<div class="dialog-container">
+  <div
+    class="dialog-icon"
+    [class.success]="data.type === 'success'"
+    [class.error]="data.type === 'error'"
+  >
+    @if (data.type === 'success') {
+      <mat-icon>check_circle</mat-icon>
+    } @else {
+      <mat-icon>error_outline</mat-icon>
+    }
+  </div>
+
+  <h2 mat-dialog-title>
+    {{ data.title }}
+  </h2>
+
+  <mat-dialog-content>
+    <p>{{ data.message }}</p>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="center">
+    <button mat-flat-button (click)="close()">Aceptar</button>
+  </mat-dialog-actions>
+</div>

@@ -1,0 +1,72 @@
+.dialog-container {
+  padding: 24px;
+  text-align: center;
+}
+
+.dialog-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+
+  mat-icon {
+    font-size: 64px;
+    width: 64px;
+    height: 64px;
+  }
+
+  &.success mat-icon {
+    color: #2e7d32;
+  }
+
+  &.error mat-icon {
+    color: #c62828;
+  }
+}
+
+h2 {
+  margin: 0 0 12px;
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+mat-dialog-content {
+  p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+  }
+}
+
+mat-dialog-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+
+  button {
+    min-width: 130px;
+    border-radius: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dialog-container {
+    padding: 16px;
+  }
+
+  h2 {
+    font-size: 19px;
+  }
+
+  .dialog-icon mat-icon {
+    font-size: 54px;
+    width: 54px;
+    height: 54px;
+  }
+
+  mat-dialog-actions button {
+    width: 100%;
+  }
+}

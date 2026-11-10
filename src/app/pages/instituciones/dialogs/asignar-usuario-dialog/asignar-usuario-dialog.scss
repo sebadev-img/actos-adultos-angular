@@ -1,0 +1,289 @@
+mat-dialog-content {
+  padding-top: 10px !important;
+  max-height: 80dvh;
+}
+
+.institucion-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 16px;
+  border-radius: 9px;
+  background: var(--mat-sys-surface-container);
+  margin-bottom: 18px;
+
+  strong {
+    font-size: 15px;
+  }
+
+  span {
+    color: var(--mat-sys-on-surface-variant);
+    font-size: 13px;
+  }
+}
+
+.step-content {
+  padding: 20px 0 8px;
+
+  > p {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--mat-sys-on-surface-variant);
+    margin: 0 0 20px;
+  }
+
+  h3 {
+    font-size: 17px;
+    font-weight: 600;
+    margin: 0 0 10px;
+  }
+}
+
+// BUSCADOR
+.search-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.search-field {
+  flex: 1;
+  min-width: 0;
+}
+
+.search-button {
+  height: 56px;
+  flex-shrink: 0;
+}
+
+// TABLA
+.usuarios-container {
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.usuarios-table {
+  width: 100%;
+  background: var(--mat-sys-surface);
+
+  th.mat-mdc-header-cell {
+    background: var(--mat-sys-surface-container-low);
+    color: var(--mat-sys-on-surface);
+    font-weight: 600;
+    font-size: 12px;
+  }
+
+  td.mat-mdc-cell {
+    font-size: 13px;
+  }
+
+  th.mat-mdc-header-cell,
+  td.mat-mdc-cell {
+    padding: 10px 14px;
+  }
+
+  tr.mat-mdc-row {
+    cursor: pointer;
+
+    &:hover {
+      background: var(--mat-sys-surface-container-low);
+    }
+
+    &.selected-row {
+      background: var(--mat-sys-primary-container);
+    }
+  }
+}
+
+.mat-column-seleccionar {
+  width: 100px;
+  text-align: center;
+}
+
+.usuario-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  strong {
+    font-size: 13px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+  }
+
+  span {
+    color: var(--mat-sys-on-surface-variant);
+    font-size: 12px;
+  }
+}
+
+mat-paginator {
+  border-top: 1px solid var(--mat-sys-outline-variant);
+  background: var(--mat-sys-surface);
+}
+
+.loading-container,
+.empty-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 12px;
+  padding: 28px 12px;
+  color: var(--mat-sys-on-surface-variant);
+  font-size: 13px;
+
+  p {
+    margin: 0;
+  }
+}
+
+.empty-state mat-icon {
+  font-size: 36px;
+  width: 36px;
+  height: 36px;
+}
+
+// USUARIO SELECCIONADO
+.selected-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  padding: 12px;
+  border-radius: 8px;
+  background: var(--mat-sys-primary-container);
+  color: var(--mat-sys-on-primary-container);
+
+  mat-icon {
+    flex-shrink: 0;
+  }
+
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+
+  span {
+    font-size: 12px;
+  }
+
+  strong {
+    font-size: 13px;
+    overflow-wrap: anywhere;
+  }
+}
+
+// CONFIRMACION
+.confirm-details {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: 9px;
+
+  > div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  span {
+    font-size: 12px;
+    color: var(--mat-sys-on-surface-variant);
+  }
+
+  strong {
+    font-size: 14px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+  }
+}
+
+.step-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+
+.dialog-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  margin-top: 12px;
+  border-radius: 8px;
+  background: var(--mat-sys-error-container);
+  color: var(--mat-sys-on-error-container);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+// QUITAR USUARIO
+.remove-content {
+  text-align: center;
+
+  .warning-icon {
+    color: var(--mat-sys-error);
+    width: 44px;
+    height: 44px;
+    font-size: 44px;
+    margin: 10px auto;
+  }
+
+  h3 {
+    font-size: 18px;
+  }
+
+  p {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--mat-sys-on-surface-variant);
+  }
+
+  .confirm-details {
+    text-align: left;
+  }
+}
+
+// RESPONSIVE
+@media (max-width: 600px) {
+  .search-container {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .search-field,
+  .search-button {
+    width: 100%;
+  }
+
+  .search-button {
+    margin-bottom: 16px;
+  }
+
+  .mat-column-seleccionar {
+    width: 78px;
+  }
+
+  .usuarios-table {
+    th.mat-mdc-header-cell,
+    td.mat-mdc-cell {
+      padding: 8px;
+    }
+  }
+
+  .step-actions {
+    flex-direction: column-reverse;
+
+    button {
+      width: 100%;
+    }
+  }
+}

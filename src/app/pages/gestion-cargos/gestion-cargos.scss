@@ -1,0 +1,387 @@
+.gestion-cargos-container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 8px 0 24px;
+  box-sizing: border-box;
+}
+
+// ENCABEZADO
+.page-header {
+  margin-bottom: 24px;
+
+  h1 {
+    margin: 0 0 5px;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--mat-sys-on-surface);
+  }
+
+  p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--mat-sys-on-surface-variant);
+  }
+}
+
+// CONTENEDOR TABLA
+.table-card {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--mat-sys-surface);
+  border: 1px solid var(--mat-sys-outline-variant);
+}
+
+// FILTROS
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 20px 20px 4px;
+}
+
+.search-field {
+  flex: 2;
+  min-width: 240px;
+}
+
+.estado-field {
+  flex: 1;
+  min-width: 190px;
+}
+
+.filter-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 56px;
+}
+
+// TABLA
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.actos-table {
+  width: 100%;
+  min-width: 1050px;
+  background: transparent;
+
+  th.mat-mdc-header-cell {
+    background: var(--mat-sys-surface-container-low);
+    color: var(--mat-sys-on-surface);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  td.mat-mdc-cell {
+    color: var(--mat-sys-on-surface);
+    font-size: 14px;
+  }
+
+  th.mat-mdc-header-cell,
+  td.mat-mdc-cell {
+    padding: 12px 16px;
+  }
+
+  tr.mat-mdc-row:hover {
+    background: var(--mat-sys-surface-container-low);
+  }
+}
+
+.mat-column-numero {
+  min-width: 105px;
+}
+
+.mat-column-descripcion {
+  min-width: 220px;
+}
+
+.mat-column-inicio,
+.mat-column-fin {
+  min-width: 150px;
+}
+
+.mat-column-puedeCargarCargos {
+  min-width: 160px;
+}
+
+.mat-column-acciones {
+  min-width: 145px;
+  white-space: nowrap;
+}
+
+// ESTADOS
+.estado-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+
+  mat-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.habilitado {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.deshabilitado {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+// CARGANDO / VACIO
+.loading-container,
+.empty-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding: 36px 16px;
+  color: var(--mat-sys-on-surface-variant);
+  font-size: 13px;
+}
+
+.empty-state {
+  flex-direction: column;
+  text-align: center;
+
+  mat-icon {
+    width: 42px;
+    height: 42px;
+    font-size: 42px;
+  }
+
+  h3,
+  p {
+    margin: 0;
+  }
+}
+
+// ERRORES
+.table-error {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0 20px 16px;
+  padding: 12px;
+  border-radius: 8px;
+  background: var(--mat-sys-error-container);
+  color: var(--mat-sys-on-error-container);
+  font-size: 13px;
+}
+
+mat-paginator {
+  border-top: 1px solid var(--mat-sys-outline-variant);
+  background: var(--mat-sys-surface);
+}
+
+// ACTO SELECCIONADO
+.selected-act-card {
+  margin-top: 24px;
+  padding: 24px;
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: 12px;
+  background: var(--mat-sys-surface);
+}
+
+.selected-act-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+
+  h2 {
+    margin: 0 0 6px;
+    font-size: 19px;
+  }
+
+  p {
+    margin: 0;
+    color: var(--mat-sys-on-surface-variant);
+    font-size: 13px;
+  }
+}
+
+.selected-act-message {
+  margin: 18px 0 8px;
+  font-size: 14px;
+}
+
+.pending-info {
+  color: var(--mat-sys-on-surface-variant);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+// RESPONSIVE
+@media (max-width: 768px) {
+  .page-header h1 {
+    font-size: 23px;
+  }
+
+  .filters {
+    padding: 16px 12px 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .page-header {
+    margin-bottom: 18px;
+
+    h1 {
+      font-size: 21px;
+    }
+
+    p {
+      font-size: 12px;
+    }
+  }
+
+  .filters {
+    flex-direction: column;
+    gap: 0;
+
+    mat-form-field {
+      width: 100%;
+      min-width: 0;
+    }
+  }
+
+  .filter-actions {
+    width: 100%;
+    margin-bottom: 14px;
+
+    button {
+      flex: 1;
+    }
+  }
+
+  .table-card {
+    border-radius: 10px;
+  }
+
+  .selected-act-card {
+    padding: 16px;
+  }
+}
+
+.cargos-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.cargos-title {
+  h2 {
+    margin: 0 0 6px;
+    font-size: 19px;
+    font-weight: 600;
+  }
+
+  p {
+    margin: 0;
+    font-size: 13px;
+    color: var(--mat-sys-on-surface-variant);
+  }
+}
+
+.cargos-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.carga-status {
+  margin-bottom: 20px;
+
+  p {
+    margin: 10px 0 0;
+    font-size: 13px;
+    color: var(--mat-sys-on-surface-variant);
+  }
+}
+
+.cargos-table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: 8px;
+}
+
+.cargos-table {
+  width: 100%;
+  min-width: 1000px;
+  background: var(--mat-sys-surface);
+
+  th.mat-mdc-header-cell {
+    background: var(--mat-sys-surface-container-low);
+    color: var(--mat-sys-on-surface);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  td.mat-mdc-cell {
+    color: var(--mat-sys-on-surface);
+    font-size: 14px;
+  }
+
+  th.mat-mdc-header-cell,
+  td.mat-mdc-cell {
+    padding: 12px 16px;
+  }
+
+  tr.mat-mdc-row:hover {
+    background: var(--mat-sys-surface-container-low);
+  }
+}
+
+.mat-column-descripcion {
+  min-width: 230px;
+}
+
+.mat-column-orientacion {
+  min-width: 160px;
+}
+
+.mat-column-acciones {
+  width: 120px;
+  min-width: 120px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .cargos-header {
+    align-items: stretch;
+  }
+
+  .cargos-header-actions {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .cargos-header-actions > button:first-child {
+    flex: 1;
+  }
+
+  .cargos-title h2 {
+    font-size: 17px;
+  }
+}

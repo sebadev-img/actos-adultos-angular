@@ -1,0 +1,265 @@
+<h2 mat-dialog-title>
+  {{ isEditing ? 'Editar cargo' : 'Agregar cargo' }}
+</h2>
+
+<mat-dialog-content>
+  <div class="acto-info">
+    <strong>Acto {{ data.acto.numero }}</strong>
+    <span>{{ data.acto.descripcion }}</span>
+  </div>
+
+  <form id="cargoForm" [formGroup]="form" (ngSubmit)="guardar()">
+    <!-- INFORMACION DEL CARGO -->
+
+    <!-- DATOS DEL CARGO -->
+    <div class="section-header">
+      <h3>Datos del cargo</h3>
+      <p>Completá la información del cargo.</p>
+    </div>
+
+    <div class="form-grid">
+      <!-- DESCRIPCIÓN -->
+      <mat-form-field appearance="outline" class="full-row">
+        <mat-label>Descripción</mat-label>
+
+        <input matInput formControlName="descripcion" maxlength="500" />
+
+        @if (f.descripcion.hasError('required')) {
+          <mat-error>La descripción es obligatoria.</mat-error>
+        }
+      </mat-form-field>
+
+      <!-- ORIENTACIÓN -->
+      <mat-form-field appearance="outline">
+        <mat-label>Orientación</mat-label>
+
+        <mat-select formControlName="orientacionId">
+          @for (orientacion of orientaciones; track orientacion.id) {
+            <mat-option [value]="orientacion.id">
+              {{ orientacion.descripcion }}
+            </mat-option>
+          }
+        </mat-select>
+
+        @if (f.orientacionId.invalid) {
+          <mat-error>Seleccioná una orientación.</mat-error>
+        }
+      </mat-form-field>
+
+      <!-- TURNO -->
+      <mat-form-field appearance="outline">
+        <mat-label>Turno</mat-label>
+
+        <mat-select formControlName="turno">
+          @for (turno of turnos; track turno.value) {
+            <mat-option [value]="turno.value">
+              {{ turno.label }}
+            </mat-option>
+          }
+        </mat-select>
+
+        @if (f.turno.invalid) {
+          <mat-error>Seleccioná un turno.</mat-error>
+        }
+      </mat-form-field>
+
+      <!-- CÓDIGO -->
+      <mat-form-field appearance="outline">
+        <mat-label>Código</mat-label>
+
+        <input matInput type="number" min="0" step="1" formControlName="codigo" />
+        @if (f.codigo.hasError('required')) {
+          <mat-error>El código es obligatorio.</mat-error>
+        }
+
+        @if (f.codigo.hasError('min')) {
+          <mat-error>El código debe ser mayor a 0.</mat-error>
+        }
+      </mat-form-field>
+
+      <!-- NÚMERO DE LLAMADO -->
+      <mat-form-field appearance="outline">
+        <mat-label>Número de llamado</mat-label>
+
+        <input matInput type="number" min="0" step="1" formControlName="numeroLLamado" />
+        @if (f.numeroLLamado.hasError('required')) {
+          <mat-error>El número de llamado es obligatorio.</mat-error>
+        }
+
+        @if (f.numeroLLamado.hasError('min')) {
+          <mat-error>El número de llamado debe ser mayor a 0.</mat-error>
+        }
+      </mat-form-field>
+
+      <!-- REVISTA -->
+      <mat-form-field appearance="outline">
+        <mat-label>Revista</mat-label>
+
+        <mat-select formControlName="revista">
+          @for (revista of revistas; track revista.value) {
+            <mat-option [value]="revista.value">
+              {{ revista.label }}
+            </mat-option>
+          }
+        </mat-select>
+
+        @if (f.revista.invalid) {
+          <mat-error>Seleccioná una revista.</mat-error>
+        }
+      </mat-form-field>
+
+      <!-- CARGA HORARIA -->
+      <mat-form-field appearance="outline">
+        <mat-label>Carga horaria</mat-label>
+
+        <input matInput formControlName="cargaHoraria" />
+
+        @if (f.cargaHoraria.hasError('required')) {
+          <mat-error>La carga horaria es obligatoria.</mat-error>
+        }
+      </mat-form-field>
+
+      <!-- CURSO Y DIVISIÓN: MISMA FILA -->
+      <div class="curso-division-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Curso</mat-label>
+
+          <input matInput type="number" min="0" step="1" formControlName="curso" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>División</mat-label>
+
+          <input matInput formControlName="division" />
+
+          @if (f.division.hasError('required')) {
+            <mat-error>La división es obligatoria.</mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <!-- PLAZA SUNA -->
+      <mat-form-field appearance="outline">
+        <mat-label>Plaza SUNA</mat-label>
+
+        <input matInput formControlName="plazaSUNA" />
+
+        @if (f.plazaSUNA.hasError('required')) {
+          <mat-error>La plaza SUNA es obligatoria.</mat-error>
+        }
+      </mat-form-field>
+
+      <!-- CÓDIGO JUNTA -->
+      <mat-form-field appearance="outline">
+        <mat-label>Código Junta</mat-label>
+
+        <mat-select formControlName="codigoJunta">
+          @for (codigo of codigosJunta; track codigo.codEspacio) {
+            <mat-option [value]="codigo.codEspacio">
+              {{ codigo.codEspacio }} - {{ codigo.desEspacio }}
+            </mat-option>
+          }
+        </mat-select>
+
+        @if (f.codigoJunta.hasError('required')) {
+          <mat-error>Seleccioná un código de Junta.</mat-error>
+        }
+      </mat-form-field>
+
+      @if (loadingCodigosJunta) {
+        <div class="codigo-junta-status">
+          <mat-spinner diameter="20"></mat-spinner>
+          <span>Cargando códigos de Junta...</span>
+        </div>
+      }
+
+      @if (errorCodigosJunta) {
+        <div class="codigo-junta-status error">
+          <span>No se pudieron cargar los códigos de Junta.</span>
+
+          <button mat-button type="button" (click)="cargarCodigosJunta()">Reintentar</button>
+        </div>
+      }
+    </div>
+
+    <!-- HORARIOS -->
+    <div class="section-header horarios-header">
+      <div>
+        <h3>Horarios</h3>
+        <p>Agregá al menos un horario semanal.</p>
+      </div>
+
+      <button mat-stroked-button type="button" (click)="agregarHorario()">
+        <mat-icon>add</mat-icon>
+        Agregar horario
+      </button>
+    </div>
+
+    <div formArrayName="horarios" class="horarios-container">
+      @for (horario of horarios.controls; track horario; let i = $index) {
+        <div [formGroupName]="i" class="horario-row">
+          <mat-form-field appearance="outline">
+            <mat-label>Día</mat-label>
+
+            <mat-select formControlName="diaSemana">
+              @for (dia of diasSemana; track dia.value) {
+                <mat-option [value]="dia.value">
+                  {{ dia.label }}
+                </mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Hora inicio</mat-label>
+
+            <input matInput type="time" formControlName="horaInicio" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Hora fin</mat-label>
+
+            <input matInput type="time" formControlName="horaFin" />
+          </mat-form-field>
+
+          <button
+            mat-icon-button
+            type="button"
+            class="remove-horario"
+            aria-label="Eliminar horario"
+            [disabled]="horarios.length === 1"
+            (click)="quitarHorario(i)"
+          >
+            <mat-icon>delete_outline</mat-icon>
+          </button>
+        </div>
+      }
+    </div>
+
+    @if (errorMessage) {
+      <div class="dialog-error" role="alert">
+        <mat-icon>error_outline</mat-icon>
+        <span>{{ errorMessage }}</span>
+
+        @if (orientacionesError) {
+          <button mat-button type="button" (click)="cargarOrientaciones()">Reintentar</button>
+        }
+      </div>
+    }
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button type="button" [disabled]="saving" (click)="cancelar()">Cancelar</button>
+
+  <button mat-flat-button type="submit" form="cargoForm" [disabled]="!puedeGuardar">
+    @if (saving) {
+      <mat-spinner diameter="20"></mat-spinner>
+      <span>Guardando...</span>
+    } @else {
+      <span>
+        {{ isEditing ? 'Actualizar cargo' : 'Guardar cargo' }}
+      </span>
+    }
+  </button>
+</mat-dialog-actions>

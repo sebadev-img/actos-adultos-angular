@@ -1,0 +1,91 @@
+<h2 mat-dialog-title>Cambiar rol de usuario</h2>
+
+<mat-dialog-content>
+  @if (successMessage) {
+    <div class="result-container">
+      <mat-icon class="success-icon"> check_circle </mat-icon>
+
+      <h3>Rol actualizado</h3>
+
+      <p>{{ successMessage }}</p>
+
+      <p>
+        Nuevo rol:
+        <strong>{{ rolSeleccionado }}</strong>
+      </p>
+    </div>
+  } @else {
+    <div class="user-info">
+      <span class="info-label">Usuario</span>
+
+      <strong>{{ data.usuario.email }}</strong>
+
+      <span class="info-label">Rol actual</span>
+
+      <strong>{{ rolActual }}</strong>
+
+      @if (data.usuario.institucionNombre) {
+        <span class="info-label">Institución asociada</span>
+        <strong>{{ data.usuario.institucionNombre }}</strong>
+      }
+    </div>
+
+    <form id="cambiarRolForm" [formGroup]="form" (ngSubmit)="guardar()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nuevo rol</mat-label>
+
+        <mat-select formControlName="role">
+          @for (role of roles; track role.value) {
+            <mat-option [value]="role.value">
+              {{ role.label }}
+            </mat-option>
+          }
+        </mat-select>
+
+        @if (form.controls.role.hasError('required')) {
+          <mat-error>Seleccioná un rol.</mat-error>
+        }
+      </mat-form-field>
+    </form>
+
+    @if (requiereDesasignar) {
+      <div class="warning-message" role="alert">
+        <mat-icon>warning_amber</mat-icon>
+
+        <span>
+          Este usuario tiene una institución asignada. Primero debés quitar esa asignación desde la
+          página Instituciones.
+        </span>
+      </div>
+    }
+
+    @if (errorMessage) {
+      <div class="error-message" role="alert">
+        <mat-icon>error_outline</mat-icon>
+        <span>{{ errorMessage }}</span>
+      </div>
+    }
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  @if (successMessage) {
+    <button mat-flat-button (click)="aceptar()">Aceptar</button>
+  } @else {
+    <button mat-button type="button" [disabled]="saving" (click)="cancelar()">Cancelar</button>
+
+    <button
+      mat-flat-button
+      type="submit"
+      form="cambiarRolForm"
+      [disabled]="saving || form.invalid || !cambioRol || requiereDesasignar"
+    >
+      @if (saving) {
+        <mat-spinner diameter="20"></mat-spinner>
+        <span>Guardando...</span>
+      } @else {
+        <span>Actualizar rol</span>
+      }
+    </button>
+  }
+</mat-dialog-actions>

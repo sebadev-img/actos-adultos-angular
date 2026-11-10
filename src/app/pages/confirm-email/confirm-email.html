@@ -1,0 +1,85 @@
+<div class="confirm-page">
+  <mat-card class="confirm-card">
+    <mat-card-content>
+      <div class="confirm-header">
+        <img src="logo.png" alt="Logo Actos Adultos" class="confirm-logo" />
+
+        @if (status === 'loading') {
+          <mat-spinner diameter="55"></mat-spinner>
+
+          <h1>Confirmando tu correo</h1>
+
+          <p>Estamos verificando tu enlace de confirmación.</p>
+        } @else if (status === 'success') {
+          <mat-icon class="status-icon success-icon"> check_circle </mat-icon>
+
+          <h1>¡Correo confirmado!</h1>
+
+          <p>{{ message }}</p>
+
+          <p>Tu cuenta está activada y ya podés iniciar sesión.</p>
+
+          <a mat-flat-button routerLink="/login" class="action-button"> Iniciar sesión </a>
+        } @else {
+          <mat-icon class="status-icon error-icon"> error_outline </mat-icon>
+
+          <h1>No pudimos confirmar tu correo</h1>
+
+          <p>{{ message }}</p>
+
+          <div class="resend-section">
+            <h2>Solicitar un nuevo enlace</h2>
+
+            <p>
+              Ingresá el correo con el que te registraste. Te enviaremos un nuevo enlace de
+              confirmación.
+            </p>
+
+            <form [formGroup]="form" (ngSubmit)="resendConfirmation()">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Correo electrónico</mat-label>
+
+                <mat-icon matPrefix>email</mat-icon>
+
+                <input
+                  matInput
+                  type="email"
+                  formControlName="email"
+                  autocomplete="email"
+                  placeholder="ejemplo@correo.com"
+                />
+
+                @if (email.hasError('required') && email.touched) {
+                  <mat-error>El correo es obligatorio.</mat-error>
+                } @else if (email.hasError('email') && email.touched) {
+                  <mat-error>Ingresá un correo válido.</mat-error>
+                }
+              </mat-form-field>
+
+              @if (resendMessage) {
+                <div class="resend-result" [class.resend-success]="resendSuccess" role="status">
+                  <mat-icon>
+                    {{ resendSuccess ? 'info' : 'error_outline' }}
+                  </mat-icon>
+
+                  <span>{{ resendMessage }}</span>
+                </div>
+              }
+
+              <button mat-flat-button type="submit" class="action-button" [disabled]="resending">
+                @if (resending) {
+                  <mat-spinner diameter="20"></mat-spinner>
+                  <span>Enviando...</span>
+                } @else {
+                  <span>Reenviar enlace de confirmación</span>
+                }
+              </button>
+            </form>
+          </div>
+
+          <a mat-button routerLink="/login" class="back-button"> Volver a iniciar sesión </a>
+        }
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

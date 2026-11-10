@@ -1,0 +1,210 @@
+<div class="perfil-container">
+  <div class="page-header">
+    <div>
+      <h1>Mi perfil</h1>
+      <p>Completá o actualizá tus datos personales.</p>
+    </div>
+  </div>
+
+  @if (loading) {
+    <div class="loading-container">
+      <mat-spinner diameter="45"></mat-spinner>
+      <p>Cargando datos personales...</p>
+    </div>
+  } @else if (errorMessage && ciudades.length === 0) {
+    <div class="error-container" role="alert">
+      <mat-icon>error_outline</mat-icon>
+      <p>{{ errorMessage }}</p>
+
+      <button mat-stroked-button (click)="cargarDatos()">Reintentar</button>
+    </div>
+  } @else {
+    <form [formGroup]="form" (ngSubmit)="guardar()">
+      <mat-card class="perfil-card">
+        <mat-card-content>
+          <div class="section-header">
+            <h2>Datos personales</h2>
+          </div>
+
+          <p class="section-description">Los campos marcados con * son obligatorios.</p>
+
+          <div class="form-grid">
+            <!-- DNI -->
+            <mat-form-field appearance="outline">
+              <mat-label>DNI</mat-label>
+
+              <input
+                matInput
+                type="text"
+                inputmode="numeric"
+                formControlName="dni"
+                placeholder="Ingresá tu DNI"
+              />
+
+              @if (f.dni.hasError('required')) {
+                <mat-error>El DNI es obligatorio.</mat-error>
+              } @else if (f.dni.hasError('pattern')) {
+                <mat-error>Ingresá solamente números.</mat-error>
+              }
+            </mat-form-field>
+
+            <!-- CIUDAD -->
+            <mat-form-field appearance="outline">
+              <mat-label>Ciudad</mat-label>
+
+              <mat-select formControlName="ciudadId">
+                @for (ciudad of ciudades; track ciudad.id) {
+                  <mat-option [value]="ciudad.id">
+                    {{ ciudad.nombre }}
+                  </mat-option>
+                }
+              </mat-select>
+
+              @if (f.ciudadId.invalid) {
+                <mat-error>Seleccioná una ciudad.</mat-error>
+              }
+            </mat-form-field>
+
+            <!-- NOMBRES -->
+            <mat-form-field appearance="outline">
+              <mat-label>Nombres</mat-label>
+
+              <input matInput formControlName="nombres" maxlength="150" autocomplete="given-name" />
+
+              @if (f.nombres.hasError('required')) {
+                <mat-error>Los nombres son obligatorios.</mat-error>
+              }
+            </mat-form-field>
+
+            <!-- APELLIDOS -->
+            <mat-form-field appearance="outline">
+              <mat-label>Apellidos</mat-label>
+
+              <input
+                matInput
+                formControlName="apellidos"
+                maxlength="150"
+                autocomplete="family-name"
+              />
+
+              @if (f.apellidos.hasError('required')) {
+                <mat-error>Los apellidos son obligatorios.</mat-error>
+              }
+            </mat-form-field>
+
+            <!-- EMAIL -->
+            <mat-form-field appearance="outline">
+              <mat-label>Correo electrónico</mat-label>
+
+              <input
+                matInput
+                type="email"
+                formControlName="email"
+                maxlength="256"
+                autocomplete="email"
+                required
+              />
+
+              @if (f.email.hasError('required')) {
+                <mat-error>El correo es obligatorio.</mat-error>
+              } @else if (f.email.hasError('email')) {
+                <mat-error>Ingresá un correo válido.</mat-error>
+              }
+            </mat-form-field>
+
+            <!-- TELEFONO -->
+            <mat-form-field appearance="outline">
+              <mat-label>Teléfono</mat-label>
+
+              <input
+                matInput
+                type="tel"
+                formControlName="telefono"
+                maxlength="30"
+                autocomplete="tel"
+                required
+              />
+
+              @if (f.telefono.hasError('required')) {
+                <mat-error>El teléfono es obligatorio.</mat-error>
+              }
+            </mat-form-field>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- DOMICILIO -->
+      <mat-card class="perfil-card">
+        <mat-card-content>
+          <div class="section-header">
+            <h2>Domicilio</h2>
+          </div>
+
+          <div class="form-grid domicilio-grid">
+            <!-- DIRECCION -->
+            <mat-form-field appearance="outline">
+              <mat-label>Dirección / Calle</mat-label>
+
+              <input
+                matInput
+                formControlName="direccion"
+                maxlength="200"
+                autocomplete="address-line1"
+                required
+              />
+
+              @if (f.direccion.hasError('required')) {
+                <mat-error>La dirección es obligatoria.</mat-error>
+              }
+            </mat-form-field>
+
+            <!-- ALTURA -->
+            <mat-form-field appearance="outline">
+              <mat-label>Altura</mat-label>
+
+              <input
+                matInput
+                formControlName="altura"
+                maxlength="20"
+                placeholder="Número"
+                required
+              />
+
+              @if (f.altura.hasError('required')) {
+                <mat-error>La altura es obligatoria.</mat-error>
+              }
+            </mat-form-field>
+
+            <!-- DEPTO -->
+            <mat-form-field appearance="outline">
+              <mat-label>Piso / Departamento</mat-label>
+
+              <input matInput formControlName="depto" maxlength="50" autocomplete="address-line2" />
+            </mat-form-field>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- ACCIONES -->
+      <div class="form-actions">
+        @if (errorMessage) {
+          <p class="save-error" role="alert">
+            {{ errorMessage }}
+          </p>
+        }
+
+        <button mat-flat-button type="submit" class="save-button" [disabled]="saving || loading">
+          <mat-icon>save</mat-icon>
+
+          @if (saving) {
+            <span>Guardando...</span>
+          } @else {
+            <span>
+              {{ isEditing ? 'Actualizar datos' : 'Guardar datos' }}
+            </span>
+          }
+        </button>
+      </div>
+    </form>
+  }
+</div>

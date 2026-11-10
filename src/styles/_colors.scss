@@ -1,0 +1,51 @@
+/* 
+  Paleta de identidad visual.
+  Cambiá estos valores para probar otras paletas.
+
+  Los textos normales, fondos generales, superficies y bordes neutros
+  quedan controlados por Angular Material mediante --mat-sys-*.
+*/
+:root {
+  // IDENTIDAD PRINCIPAL
+  --app-primary: #116e70;
+  --app-primary-dark: #0e595b;
+  --app-primary-mid: #208c78;
+  --app-primary-end: #389f7d;
+  --app-primary-light: #ddf3ea;
+  --app-primary-on-light: #165d52;
+  --app-hover: #f0f7f4;
+
+  // Texto únicamente sobre superficies de identidad fuertes
+  --app-banner-text: #ffffff;
+  --app-banner-eyebrow: #ffe2a4;
+  --app-banner-stat: #fff0be;
+
+  // ACENTOS
+  --app-secondary: #d65b50;
+  --app-accent: #a86612;
+  --app-violet: #7653af;
+  --app-green-accent: #138774;
+
+  // ACENTOS SUAVES / BADGES
+  --app-warm-soft: #f3d2a3;
+  --app-warm-border: #d4a15b;
+  --app-amber-soft: #f4bd68;
+  --app-amber-border: #d79b37;
+  --app-mint-soft: #a0dfc0;
+  --app-mint-border: #78bc9b;
+  --app-chip-soft: #8fd7b0;
+  --app-chip-border: #67b38b;
+}
+
+/*
+  Solo ajustamos colores de acento en modo oscuro.
+  Angular Material sigue decidiendo textos, superficies y fondos.
+*/
+@media (prefers-color-scheme: dark) {
+  :root {
+    --app-secondary: #ff9a86;
+    --app-accent: #f1c078;
+    --app-violet: #c9a7ff;
+    --app-green-accent: #72d2b8;
+  }
+}

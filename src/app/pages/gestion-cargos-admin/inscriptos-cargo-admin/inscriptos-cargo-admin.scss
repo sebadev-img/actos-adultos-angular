@@ -1,0 +1,406 @@
+.inscriptos-container {
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+//
+// ENCABEZADO
+//
+
+.page-header {
+  margin-bottom: 22px;
+
+  h1 {
+    margin: 12px 0 5px;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--mat-sys-on-surface);
+  }
+
+  p {
+    margin: 0;
+    color: var(--mat-sys-on-surface-variant);
+    font-size: 14px;
+  }
+}
+
+.back-button {
+  padding-left: 0;
+}
+
+//
+// CARGO
+//
+
+.cargo-card {
+  margin-bottom: 22px;
+  padding: 20px;
+
+  border: 1px solid var(--mat-sys-outline-variant);
+
+  border-radius: 14px;
+
+  background: var(--mat-sys-surface);
+}
+
+.cargo-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+
+  padding-bottom: 18px;
+  margin-bottom: 18px;
+
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+
+  h2 {
+    margin: 4px 0 5px;
+
+    color: var(--mat-sys-on-surface);
+
+    font-size: 21px;
+    font-weight: 700;
+  }
+
+  p {
+    margin: 0;
+
+    color: var(--mat-sys-on-surface-variant);
+
+    font-size: 14px;
+  }
+}
+
+.cargo-label {
+  color: var(--mat-sys-primary);
+
+  font-size: 12px;
+  font-weight: 700;
+
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.llamado-badge {
+  flex-shrink: 0;
+
+  padding: 7px 11px;
+
+  border-radius: 8px;
+
+  background: var(--mat-sys-primary-container);
+
+  color: var(--mat-sys-on-primary-container);
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.cargo-info-grid {
+  display: grid;
+
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+
+  gap: 18px 24px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  min-width: 0;
+
+  > span {
+    color: var(--mat-sys-on-surface-variant);
+
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  > strong {
+    overflow-wrap: anywhere;
+
+    color: var(--mat-sys-on-surface);
+
+    font-size: 14px;
+    font-weight: 600;
+  }
+}
+
+//
+// TABLA
+//
+
+.table-card {
+  overflow: hidden;
+
+  border: 1px solid var(--mat-sys-outline-variant);
+
+  border-radius: 14px;
+
+  background: var(--mat-sys-surface);
+}
+
+.table-header {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 16px;
+
+  padding: 18px 20px;
+
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+
+  h2 {
+    margin: 0 0 3px;
+
+    color: var(--mat-sys-on-surface);
+
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  p {
+    margin: 0;
+
+    color: var(--mat-sys-on-surface-variant);
+
+    font-size: 13px;
+  }
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.inscriptos-table {
+  width: 100%;
+  min-width: 950px;
+}
+
+th.mat-mdc-header-cell {
+  background: var(--mat-sys-surface-container-low);
+
+  color: var(--mat-sys-on-surface-variant);
+
+  font-size: 12px;
+  font-weight: 700;
+
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+td.mat-mdc-cell {
+  padding-top: 14px;
+  padding-bottom: 14px;
+
+  color: var(--mat-sys-on-surface);
+}
+
+tr.mat-mdc-row {
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background: var(--mat-sys-surface-container-low);
+  }
+}
+
+//
+// ESTADOS
+//
+
+.estado-badge {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-width: 78px;
+
+  padding: 5px 9px;
+
+  border-radius: 999px;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  &.inscripto {
+    background: #e0f2fe;
+    color: #075985;
+  }
+
+  &.asignado {
+    background: #dcfce7;
+    color: #166534;
+  }
+}
+
+//
+// ERROR
+//
+
+.table-error {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  margin: 16px 20px;
+
+  padding: 12px 14px;
+
+  border-radius: 9px;
+
+  background: var(--mat-sys-error-container);
+
+  color: var(--mat-sys-on-error-container);
+
+  mat-icon {
+    flex-shrink: 0;
+  }
+
+  span {
+    flex: 1;
+  }
+}
+
+//
+// LOADING
+//
+
+.loading-container {
+  min-height: 220px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 12px;
+
+  color: var(--mat-sys-on-surface-variant);
+}
+
+//
+// VACÍO
+//
+
+.empty-state {
+  min-height: 230px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  padding: 30px;
+
+  text-align: center;
+
+  color: var(--mat-sys-on-surface-variant);
+
+  > mat-icon {
+    width: 44px;
+    height: 44px;
+
+    font-size: 44px;
+
+    opacity: 0.6;
+  }
+
+  h3 {
+    margin: 4px 0 0;
+
+    color: var(--mat-sys-on-surface);
+
+    font-size: 18px;
+  }
+
+  p {
+    margin: 0;
+
+    font-size: 14px;
+  }
+}
+
+mat-paginator {
+  border-top: 1px solid var(--mat-sys-outline-variant);
+}
+
+//
+// RESPONSIVE
+//
+
+@media (max-width: 1100px) {
+  .cargo-info-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 650px) {
+  .inscriptos-container {
+    padding: 0;
+  }
+
+  .page-header {
+    h1 {
+      font-size: 24px;
+    }
+  }
+
+  .cargo-card {
+    padding: 16px;
+  }
+
+  .cargo-card-header {
+    flex-direction: column;
+
+    gap: 12px;
+
+    h2 {
+      font-size: 19px;
+    }
+  }
+
+  .llamado-badge {
+    align-self: flex-start;
+  }
+
+  .cargo-info-grid {
+    grid-template-columns: 1fr;
+
+    gap: 14px;
+  }
+
+  .table-header {
+    padding: 15px 16px;
+  }
+
+  .table-error {
+    margin: 14px 16px;
+
+    flex-wrap: wrap;
+
+    button {
+      width: 100%;
+    }
+  }
+
+  .inscriptos-table {
+    min-width: 850px;
+  }
+}

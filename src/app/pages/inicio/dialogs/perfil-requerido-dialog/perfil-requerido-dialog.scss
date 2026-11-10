@@ -1,0 +1,46 @@
+mat-dialog-content {
+  text-align: center;
+  padding-top: 10px;
+}
+
+.perfil-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  margin: 4px auto 16px;
+  border-radius: 50%;
+
+  background: color-mix(in srgb, var(--app-primary) 12%, var(--mat-sys-surface));
+
+  mat-icon {
+    width: 34px;
+    height: 34px;
+    font-size: 34px;
+    color: var(--app-primary);
+  }
+}
+
+p {
+  margin: 0 auto;
+  max-width: 390px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--mat-sys-on-surface);
+}
+
+mat-dialog-actions {
+  gap: 8px;
+}
+
+@media (max-width: 480px) {
+  mat-dialog-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+
+    button {
+      width: 100%;
+    }
+  }
+}

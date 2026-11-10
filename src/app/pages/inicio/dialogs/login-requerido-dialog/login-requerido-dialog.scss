@@ -1,0 +1,40 @@
+.login-dialog {
+  min-width: 320px;
+  padding-top: 12px;
+}
+
+.dialog-icon {
+  display: flex;
+  justify-content: center;
+  margin: 8px 0 4px;
+
+  mat-icon {
+    width: 52px;
+    height: 52px;
+    font-size: 52px;
+
+    color: var(--mat-sys-primary);
+  }
+}
+
+h2 {
+  text-align: center;
+}
+
+mat-dialog-content {
+  text-align: center;
+
+  p {
+    margin: 0 0 10px;
+    line-height: 1.5;
+  }
+}
+
+.secondary-text {
+  font-size: 13px;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+mat-dialog-actions {
+  padding-top: 12px;
+}

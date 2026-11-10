@@ -1,0 +1,412 @@
+<div class="inicio-container">
+  <div class="inicio-layout">
+    <!-- COLUMNA IZQUIERDA: BANNER Y CARGOS -->
+    <main class="inicio-main">
+      <section class="hero">
+        <div class="hero-content">
+          <div class="hero-brand">
+            <div class="hero-brand-text">
+              <span class="hero-ministerio"> Ministerio de Educación </span>
+
+              <span class="hero-gobierno"> Gobierno de Tierra del Fuego </span>
+            </div>
+          </div>
+
+          <span class="hero-eyebrow"> ACTOS PÚBLICOS JÓVENES Y ADULTOS </span>
+
+          <p>
+            Consultá los cargos docentes disponibles en las instituciones educativas. Encontrá
+            oportunidades según tu orientación, turno y preferencias.
+          </p>
+
+          <div class="hero-stats">
+            <div class="hero-stat">
+              <strong>{{ totalCargos }}</strong>
+              <span>Cargos publicados</span>
+            </div>
+
+            <div class="hero-stat">
+              <strong>{{ actos.length }}</strong>
+              <span>Actos disponibles</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FILTROS PARA CELULAR -->
+      <section class="mobile-filters">
+        <div class="mobile-search">
+          <mat-icon>search</mat-icon>
+
+          <input
+            type="search"
+            [(ngModel)]="search"
+            (ngModelChange)="aplicarFiltros()"
+            placeholder="Buscar cargo..."
+            aria-label="Buscar cargo"
+          />
+        </div>
+
+        <!-- CIUDAD -->
+        <div class="mobile-filter-group">
+          <span class="mobile-filter-title"> Ciudad </span>
+
+          <div class="mobile-filter-badges">
+            <button
+              type="button"
+              class="filter-badge"
+              [class.active]="ciudadNombre === null"
+              (click)="seleccionarCiudad(null)"
+            >
+              Todo
+            </button>
+
+            <button
+              type="button"
+              class="filter-badge"
+              [class.active]="esCiudadSeleccionada('Río Grande')"
+              (click)="seleccionarCiudad('Río Grande')"
+            >
+              Río Grande
+            </button>
+
+            <button
+              type="button"
+              class="filter-badge"
+              [class.active]="esCiudadSeleccionada('Ushuaia')"
+              (click)="seleccionarCiudad('Ushuaia')"
+            >
+              Ushuaia
+            </button>
+
+            <button
+              type="button"
+              class="filter-badge"
+              [class.active]="esCiudadSeleccionada('Tolhuin')"
+              (click)="seleccionarCiudad('Tolhuin')"
+            >
+              Tolhuin
+            </button>
+          </div>
+        </div>
+
+        <!-- TURNO -->
+        <div class="mobile-filter-group">
+          <span class="mobile-filter-title"> Turno </span>
+
+          <div class="mobile-filter-badges">
+            <button
+              type="button"
+              class="filter-badge"
+              [class.active]="turno === null"
+              (click)="seleccionarTurno(null)"
+            >
+              Todo
+            </button>
+
+            <button
+              type="button"
+              class="filter-badge"
+              [class.active]="turno === Turno.MANANA"
+              (click)="seleccionarTurno(Turno.MANANA)"
+            >
+              Mañana
+            </button>
+
+            <button
+              type="button"
+              class="filter-badge"
+              [class.active]="turno === Turno.TARDE"
+              (click)="seleccionarTurno(Turno.TARDE)"
+            >
+              Tarde
+            </button>
+
+            <button
+              type="button"
+              class="filter-badge"
+              [class.active]="turno === Turno.VESPERTINO"
+              (click)="seleccionarTurno(Turno.VESPERTINO)"
+            >
+              Vespertino
+            </button>
+          </div>
+        </div>
+
+        <!-- REVISTA -->
+        <div class="mobile-filter-group">
+          <span class="mobile-filter-title"> Revista </span>
+
+          <div class="mobile-filter-badges">
+            <button
+              type="button"
+              class="filter-badge"
+              [class.active]="revista === null"
+              (click)="seleccionarRevista(null)"
+            >
+              Todo
+            </button>
+
+            <button
+              type="button"
+              class="filter-badge"
+              [class.active]="revista === Revista.INTERINO"
+              (click)="seleccionarRevista(Revista.INTERINO)"
+            >
+              Interino
+            </button>
+
+            <button
+              type="button"
+              class="filter-badge"
+              [class.active]="revista === Revista.SUPLENTE"
+              (click)="seleccionarRevista(Revista.SUPLENTE)"
+            >
+              Suplente
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="results">
+        @if (loading) {
+          <div class="feedback-panel">
+            <mat-spinner diameter="40"></mat-spinner>
+            <p>Cargando cargos disponibles...</p>
+          </div>
+        } @else if (errorMessage) {
+          <div class="feedback-panel error-panel" role="alert">
+            <mat-icon>error_outline</mat-icon>
+            <h3>No se pudieron cargar los cargos</h3>
+            <p>{{ errorMessage }}</p>
+            <button mat-flat-button type="button" (click)="cargarDisponibles()">
+              <mat-icon>refresh</mat-icon>
+              Reintentar
+            </button>
+          </div>
+        } @else {
+          <div class="list-toolbar">
+            <span>
+              {{ totalCargosFiltrados }}
+              {{ totalCargosFiltrados === 1 ? 'cargo encontrado' : 'cargos encontrados' }}
+            </span>
+            <button
+              mat-icon-button
+              type="button"
+              aria-label="Actualizar cargos"
+              (click)="cargarDisponibles()"
+            >
+              <mat-icon>refresh</mat-icon>
+            </button>
+          </div>
+
+          @if (actos.length === 0) {
+            <div class="feedback-panel empty-panel">
+              <mat-icon>event_busy</mat-icon>
+
+              <h3>No hay actos disponibles</h3>
+
+              <p>Actualmente no hay actos públicos disponibles.</p>
+            </div>
+          } @else if (actosFiltrados.length === 0) {
+            <div class="feedback-panel empty-panel">
+              <mat-icon>search_off</mat-icon>
+
+              <h3>No se encontraron cargos</h3>
+
+              <p>No hay cargos disponibles que coincidan con los filtros seleccionados.</p>
+
+              @if (filtrosActivos) {
+                <button mat-stroked-button type="button" (click)="limpiarFiltros()">
+                  Limpiar filtros
+                </button>
+              }
+            </div>
+          } @else {
+            <div class="cargos-grid">
+              @for (item of cargosFiltrados; track item.cargo.id) {
+                <article
+                  class="cargo-card"
+                  [class.revista-suplente]="item.cargo.revista === Revista.SUPLENTE"
+                  [class.revista-interino]="item.cargo.revista === Revista.INTERINO"
+                >
+                  <div class="card-top">
+                    <div class="card-institucion">
+                      <mat-icon>account_balance</mat-icon>
+                      <span>{{ item.cargo.institucionNombre }}</span>
+                    </div>
+                    <span
+                      class="revista-badge"
+                      [class.revista-suplente]="item.cargo.revista === Revista.SUPLENTE"
+                      [class.revista-interino]="item.cargo.revista === Revista.INTERINO"
+                    >
+                      {{ getNombreRevista(item.cargo.revista) }}
+                    </span>
+                  </div>
+                  <div class="card-main">
+                    <h3 class="cargo-title">{{ item.cargo.descripcion }}</h3>
+                    <div class="cargo-details">
+                      <div class="detail">
+                        <span>Turno</span><strong>{{ getNombreTurno(item.cargo.turno) }}</strong>
+                      </div>
+                      <div class="detail">
+                        <span>Curso / División</span
+                        ><strong>{{ item.cargo.curso }}° - {{ item.cargo.division }}</strong>
+                      </div>
+                      <div class="detail">
+                        <span>Carga horaria</span><strong>{{ item.cargo.cargaHoraria }}</strong>
+                      </div>
+                      <div class="detail">
+                        <span>Número de llamado</span
+                        ><strong>{{ item.cargo.numeroLLamado }}</strong>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="horarios-section">
+                    <div class="horarios-title">
+                      <mat-icon>calendar_month</mat-icon><span>Horarios</span>
+                    </div>
+                    <div class="horarios-list">
+                      @for (horario of item.cargo.horarios; track $index) {
+                        <span class="horario-chip">
+                          {{ getNombreDia(horario.diaSemana) }}
+                          {{ horario.horaInicio.slice(0, 5) }} - {{ horario.horaFin.slice(0, 5) }}
+                        </span>
+                      } @empty {
+                        <span class="sin-horarios">Sin horarios informados</span>
+                      }
+                    </div>
+                  </div>
+                  <div class="card-actions">
+                    <button
+                      mat-stroked-button
+                      type="button"
+                      (click)="verDetalle(item.acto, item.cargo)"
+                    >
+                      <mat-icon>visibility</mat-icon>
+                      Ver más detalles
+                    </button>
+
+                    <button
+                      mat-flat-button
+                      type="button"
+                      class="postular-button"
+                      [disabled]="item.cargo.estaInscripto || postulandoCargoId !== null"
+                      (click)="postular(item.cargo)"
+                    >
+                      <mat-icon>
+                        {{
+                          item.cargo.estaInscripto
+                            ? 'check_circle'
+                            : postulandoCargoId === item.cargo.id
+                              ? 'hourglass_top'
+                              : 'how_to_reg'
+                        }}
+                      </mat-icon>
+
+                      {{
+                        item.cargo.estaInscripto
+                          ? 'Ya inscripto'
+                          : postulandoCargoId === item.cargo.id
+                            ? 'Verificando...'
+                            : 'Postularme'
+                      }}
+                    </button>
+                  </div>
+                </article>
+              }
+            </div>
+          }
+        }
+      </section>
+    </main>
+
+    <!-- COLUMNA DERECHA: FILTROS -->
+    <aside class="inicio-sidebar">
+      <section class="filters-panel">
+        <div class="filters-header">
+          <h2><mat-icon>tune</mat-icon> Filtros</h2>
+          <p>Encontrá los cargos que buscás.</p>
+        </div>
+
+        <div class="filters-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>Buscar cargo</mat-label>
+            <input
+              matInput
+              [(ngModel)]="search"
+              (ngModelChange)="aplicarFiltros()"
+              placeholder="Descripción o código..."
+            />
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Ciudad</mat-label>
+
+            <mat-select [(ngModel)]="ciudadNombre" (selectionChange)="aplicarFiltros()">
+              <mat-option [value]="null"> Todas las ciudades </mat-option>
+
+              @for (ciudad of ciudades; track ciudad) {
+                <mat-option [value]="ciudad">
+                  {{ ciudad }}
+                </mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Institución</mat-label>
+            <mat-select [(ngModel)]="institucionId" (selectionChange)="aplicarFiltros()">
+              <mat-option [value]="null">Todas las instituciones</mat-option>
+              @for (institucion of instituciones; track institucion.id) {
+                <mat-option [value]="institucion.id">{{ institucion.nombre }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Orientación</mat-label>
+            <mat-select [(ngModel)]="orientacionId" (selectionChange)="aplicarFiltros()">
+              <mat-option [value]="null">Todas las orientaciones</mat-option>
+              @for (orientacion of orientaciones; track orientacion.id) {
+                <mat-option [value]="orientacion.id">{{ orientacion.nombre }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Turno</mat-label>
+            <mat-select [(ngModel)]="turno" (selectionChange)="aplicarFiltros()">
+              <mat-option [value]="null">Todos los turnos</mat-option>
+              @for (turnoOption of turnos; track turnoOption.value) {
+                <mat-option [value]="turnoOption.value">{{ turnoOption.label }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Revista</mat-label>
+            <mat-select [(ngModel)]="revista" (selectionChange)="aplicarFiltros()">
+              <mat-option [value]="null">Todas</mat-option>
+              @for (revistaOption of revistas; track revistaOption.value) {
+                <mat-option [value]="revistaOption.value">{{ revistaOption.label }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+          <button
+            mat-stroked-button
+            type="button"
+            class="clear-button"
+            [disabled]="!filtrosActivos"
+            (click)="limpiarFiltros()"
+          >
+            <mat-icon>filter_alt_off</mat-icon>
+            Limpiar filtros
+          </button>
+        </div>
+      </section>
+    </aside>
+  </div>
+</div>

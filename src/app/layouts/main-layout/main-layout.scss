@@ -1,0 +1,260 @@
+.app-container {
+  height: 100vh;
+  height: 100dvh;
+  background: var(--mat-sys-background);
+}
+
+// ==========================================
+// SIDENAV
+// ==========================================
+
+.app-sidenav {
+  width: 260px;
+  max-width: 85vw;
+  padding: 8px 0;
+
+  background: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+
+  border-right: 1px solid var(--mat-sys-outline-variant);
+  border-radius: 0;
+}
+
+// HEADER SIDENAV
+.sidenav-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 20px 16px 10px;
+}
+
+.sidenav-logo {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  margin-bottom: 12px;
+  object-fit: contain;
+}
+
+.brand {
+  text-align: center;
+  width: 100%;
+
+  h2 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--mat-sys-on-surface);
+  }
+
+  p {
+    margin: 4px 0 0;
+    font-size: 0.9rem;
+    color: var(--mat-sys-on-surface-variant);
+    opacity: 0.7;
+    line-height: 1.4;
+  }
+}
+
+// ==========================================
+// NAVEGACIÓN
+// ==========================================
+
+.app-sidenav mat-nav-list {
+  padding: 8px;
+}
+
+.app-sidenav a[mat-list-item] {
+  margin-bottom: 3px;
+  border-radius: 8px;
+
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background: var(--app-hover);
+  }
+
+  &.active-link {
+    background: var(--app-primary-light);
+
+    --mdc-list-list-item-label-text-color: var(--app-primary-on-light);
+    --mdc-list-list-item-leading-icon-color: var(--app-primary-on-light);
+    --mdc-list-list-item-hover-label-text-color: var(--app-primary-on-light);
+
+    font-weight: 600;
+  }
+}
+
+.menu-section {
+  padding: 20px 16px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--mat-sys-on-surface-variant);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.mat-mdc-list-item-title {
+  white-space: normal !important;
+  word-break: break-word;
+  line-height: 1.2;
+}
+
+// ==========================================
+// CONTENIDO DERECHO
+// ==========================================
+
+mat-sidenav-content.layout-content {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+
+  background: var(--mat-sys-background);
+}
+
+// ==========================================
+// TOOLBAR - VERDE PETRÓLEO
+// ==========================================
+
+.app-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+
+  height: 64px;
+  min-height: 64px;
+  flex-shrink: 0;
+
+  background: var(--app-primary);
+  color: var(--app-banner-text);
+
+  border-bottom: 1px solid var(--app-primary-dark);
+}
+
+.menu-button {
+  color: var(--app-banner-text);
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-right: 12px;
+
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--app-banner-text);
+}
+
+.user-email {
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// BOTONES DEL TOOLBAR
+.login-button,
+.logout-button {
+  color: var(--app-banner-text) !important;
+}
+
+.register-button {
+  background: var(--app-banner-text) !important;
+  color: var(--app-primary) !important;
+}
+
+// ==========================================
+// CONTENIDO DE LAS PÁGINAS
+// ==========================================
+
+.app-content {
+  flex: 1;
+  min-width: 0;
+  padding: 24px;
+
+  background: var(--mat-sys-background);
+  color: var(--mat-sys-on-background);
+}
+
+// ==========================================
+// FOOTER GENERAL
+// ==========================================
+
+.app-footer {
+  margin-top: auto;
+  padding: 16px 24px;
+  text-align: center;
+  font-size: 13px;
+
+  color: var(--mat-sys-on-surface-variant);
+  background: var(--mat-sys-surface);
+}
+
+// ==========================================
+// RESPONSIVE - TABLETS
+// ==========================================
+
+@media (max-width: 768px) {
+  .sidenav-logo {
+    max-width: 220px;
+  }
+
+  .app-content {
+    padding: 16px;
+  }
+
+  .app-toolbar {
+    height: 56px;
+    min-height: 56px;
+    padding: 0 10px;
+  }
+
+  .user-email {
+    max-width: 110px;
+  }
+
+  .app-footer {
+    padding: 12px;
+    font-size: 12px;
+  }
+}
+
+// ==========================================
+// RESPONSIVE - CELULARES
+// ==========================================
+
+@media (max-width: 480px) {
+  .app-content {
+    padding: 12px;
+  }
+
+  .user-info {
+    margin-right: 6px;
+  }
+
+  .user-email {
+    max-width: 75px;
+    font-size: 12px;
+  }
+
+  .login-button,
+  .register-button,
+  .logout-button {
+    padding: 0 8px;
+    font-size: 12px;
+    min-width: 0;
+  }
+
+  .login-button mat-icon,
+  .register-button mat-icon,
+  .logout-button mat-icon {
+    display: none;
+  }
+}

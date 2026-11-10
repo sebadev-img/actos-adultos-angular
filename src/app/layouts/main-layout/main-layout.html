@@ -1,0 +1,183 @@
+<mat-sidenav-container class="app-container">
+  <!-- SIDENAV -->
+  <mat-sidenav
+    #drawer
+    class="app-sidenav"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="isLoggedIn && !(isHandset$ | async)"
+  >
+    <!-- LOGO Y TITULO -->
+    <div class="sidenav-header">
+      <img src="logo.png" alt="Logo Actos Adultos" class="sidenav-logo" />
+
+      <div class="brand">
+        <h2>Inscripción Actos Públicos</h2>
+        <p>Jóvenes y Adultos</p>
+      </div>
+    </div>
+
+    <!-- NAVEGACIÓN -->
+    <mat-nav-list>
+      <a
+        mat-list-item
+        routerLink="/inicio"
+        routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (click)="closeOnMobile(drawer)"
+      >
+        <mat-icon matListItemIcon>home</mat-icon>
+        <span matListItemTitle>Inicio</span>
+      </a>
+
+      @if (isLoggedIn) {
+        @if (hasRole('docente') || hasRole('admin')) {
+          <a
+            mat-list-item
+            routerLink="/mi-perfil"
+            routerLinkActive="active-link"
+            (click)="closeOnMobile(drawer)"
+          >
+            <mat-icon matListItemIcon>person</mat-icon>
+            <span matListItemTitle>Mi perfil</span>
+          </a>
+        }
+
+        @if (hasRole('docente') || hasRole('admin')) {
+          <a
+            mat-list-item
+            routerLink="/mis-postulaciones"
+            routerLinkActive="active-link"
+            (click)="closeOnMobile(drawer)"
+          >
+            <mat-icon matListItemIcon>assignment</mat-icon>
+            <span matListItemTitle>Mis postulaciones</span>
+          </a>
+        }
+
+        @if (hasRole('institucion')) {
+          <!-- <a
+            mat-list-item
+            routerLink="/mi-institucion"
+            routerLinkActive="active-link"
+            (click)="closeOnMobile(drawer)"
+          >
+            <mat-icon matListItemIcon>apartment</mat-icon>
+            <span matListItemTitle>Mi institución</span>
+          </a> -->
+
+          <a mat-list-item routerLink="/gestion-cargos" routerLinkActive="active-link">
+            <mat-icon matListItemIcon>work_outline</mat-icon>
+
+            <span matListItemTitle> Gestión de Cargos </span>
+          </a>
+        }
+
+        @if (hasRole('admin')) {
+          <div class="menu-section">Administración</div>
+
+          <a
+            mat-list-item
+            routerLink="/actos"
+            routerLinkActive="active-link"
+            (click)="closeOnMobile(drawer)"
+          >
+            <mat-icon matListItemIcon>event</mat-icon>
+            <span matListItemTitle>Actos</span>
+          </a>
+
+          <a
+            mat-list-item
+            routerLink="/instituciones"
+            routerLinkActive="active-link"
+            (click)="closeOnMobile(drawer)"
+          >
+            <mat-icon matListItemIcon>account_balance</mat-icon>
+            <span matListItemTitle>Instituciones</span>
+          </a>
+
+          <a mat-list-item routerLink="/orientaciones" routerLinkActive="active-link">
+            <mat-icon matListItemIcon>category</mat-icon>
+            <span matListItemTitle>Orientaciones</span>
+          </a>
+
+          <a mat-list-item routerLink="/gestion-cargos-admin" routerLinkActive="active-link">
+            <mat-icon matListItemIcon>work_outline</mat-icon>
+
+            <span matListItemTitle> Gestión de Cargos </span>
+          </a>
+
+          <a
+            mat-list-item
+            routerLink="/postulantes"
+            routerLinkActive="active-link"
+            (click)="closeOnMobile(drawer)"
+          >
+            <mat-icon matListItemIcon>groups</mat-icon>
+            <span matListItemTitle>Postulantes</span>
+          </a>
+
+          <a
+            mat-list-item
+            routerLink="/usuarios"
+            routerLinkActive="active-link"
+            (click)="closeOnMobile(drawer)"
+          >
+            <mat-icon matListItemIcon>manage_accounts</mat-icon>
+            <span matListItemTitle>Usuarios</span>
+          </a>
+        }
+      }
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <mat-sidenav-content class="layout-content">
+    <!-- TOOLBAR -->
+    <mat-toolbar class="app-toolbar">
+      <button
+        mat-icon-button
+        class="menu-button"
+        aria-label="Abrir o cerrar menú"
+        (click)="drawer.toggle()"
+      >
+        <mat-icon>menu</mat-icon>
+      </button>
+
+      <span class="toolbar-spacer"></span>
+
+      @if (isLoggedIn) {
+        <span class="user-info">
+          <mat-icon>account_circle</mat-icon>
+          <span class="user-email">
+            {{ userEmail }}
+          </span>
+        </span>
+
+        <button mat-button class="logout-button" [disabled]="loggingOut" (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span>Cerrar sesión</span>
+        </button>
+      } @else {
+        <a mat-button routerLink="/login" class="login-button">
+          <mat-icon>login</mat-icon>
+          <span>Iniciar sesión</span>
+        </a>
+
+        <a mat-flat-button routerLink="/register" class="register-button">
+          <mat-icon>person_add</mat-icon>
+          <span>Registrarse</span>
+        </a>
+      }
+    </mat-toolbar>
+
+    <!-- CONTENIDO DE LAS PAGINAS -->
+    <main class="app-content">
+      <router-outlet></router-outlet>
+    </main>
+
+    <!-- FOOTER GENERAL -->
+    <footer class="app-footer">
+      © {{ currentYear }} - Desarrollado por la Dirección Provincial de Sistemas Administrativos
+    </footer>
+  </mat-sidenav-content>
+</mat-sidenav-container>

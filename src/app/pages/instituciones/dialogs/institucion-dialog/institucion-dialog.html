@@ -1,0 +1,55 @@
+<h2 mat-dialog-title>
+  {{ isEditing ? 'Editar institución' : 'Agregar institución' }}
+</h2>
+
+<mat-dialog-content>
+  <p class="dialog-description">Completá los datos de la institución.</p>
+
+  <form id="institucionForm" [formGroup]="form" (ngSubmit)="guardar()">
+    <mat-form-field appearance="outline">
+      <mat-label>Descripción</mat-label>
+      <input matInput formControlName="descripcion" maxlength="200" />
+
+      @if (form.controls.descripcion.hasError('required')) {
+        <mat-error>La descripción es obligatoria.</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Ciudad</mat-label>
+
+      <mat-select formControlName="ciudadId">
+        @for (ciudad of ciudades; track ciudad.id) {
+          <mat-option [value]="ciudad.id">
+            {{ ciudad.nombre }}
+          </mat-option>
+        }
+      </mat-select>
+
+      @if (form.controls.ciudadId.invalid) {
+        <mat-error>Seleccioná una ciudad.</mat-error>
+      }
+    </mat-form-field>
+
+    @if (loadingCiudades) {
+      <mat-spinner diameter="24"></mat-spinner>
+    }
+
+    @if (errorMessage) {
+      <p class="dialog-error" role="alert">{{ errorMessage }}</p>
+    }
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button type="button" (click)="cancelar()" [disabled]="saving">Cancelar</button>
+
+  <button
+    mat-flat-button
+    type="submit"
+    form="institucionForm"
+    [disabled]="saving || loadingCiudades || ciudades.length === 0"
+  >
+    {{ saving ? 'Guardando...' : isEditing ? 'Actualizar' : 'Guardar' }}
+  </button>
+</mat-dialog-actions>

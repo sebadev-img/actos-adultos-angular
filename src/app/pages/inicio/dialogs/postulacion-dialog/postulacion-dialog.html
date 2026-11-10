@@ -1,0 +1,105 @@
+@if (!exito) {
+  <!-- CONFIRMACIÓN -->
+  <h2 mat-dialog-title>Confirmar postulación</h2>
+
+  <mat-dialog-content>
+    <div class="cargo-resumen">
+      <mat-icon> work_outline </mat-icon>
+
+      <div>
+        <strong>
+          {{ data.cargoDescripcion }}
+        </strong>
+
+        <span>
+          {{ data.institucionNombre }}
+        </span>
+      </div>
+    </div>
+
+    <div class="declaracion">
+      <p>
+        Declaro
+        <strong>ACEPTAR</strong>
+        el cargo o las horas en las que me postulo si resultara
+
+        <strong>ASIGNADO/A</strong>
+
+        en cualquiera de ellos, en virtud al orden de mi merituación. Declaro estar enmarcado en la
+        Ley Provincial 761/08.
+      </p>
+    </div>
+
+    <mat-checkbox class="aceptacion-checkbox" [(ngModel)]="aceptado" [disabled]="guardando">
+      He leído y acepto la declaración anterior.
+    </mat-checkbox>
+
+    @if (errorMessage) {
+      <div class="error-message" role="alert">
+        <mat-icon> error_outline </mat-icon>
+
+        <span>
+          {{ errorMessage }}
+        </span>
+      </div>
+    }
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" [disabled]="guardando" (click)="cerrar()">Cancelar</button>
+
+    <button mat-flat-button type="button" [disabled]="!aceptado || guardando" (click)="aceptar()">
+      @if (guardando) {
+        <mat-spinner diameter="20"></mat-spinner>
+      } @else {
+        <mat-icon> check </mat-icon>
+      }
+
+      {{ guardando ? 'Inscribiendo...' : 'Aceptar' }}
+    </button>
+  </mat-dialog-actions>
+} @else {
+  <!-- INSCRIPCIÓN EXITOSA -->
+
+  <div class="success-header">
+    <div class="success-icon">
+      <mat-icon>check_circle</mat-icon>
+    </div>
+
+    <h2>Inscripción realizada</h2>
+
+    <p class="success-message">Te inscribiste correctamente al cargo</p>
+  </div>
+
+  <mat-dialog-content class="success-content">
+    <div class="success-cargo">
+      <mat-icon>work_outline</mat-icon>
+
+      <div>
+        <strong>
+          {{ data.cargoDescripcion }}
+        </strong>
+
+        <span>
+          {{ data.institucionNombre }}
+        </span>
+      </div>
+    </div>
+
+    <p class="success-info">
+      Podés consultar esta postulación desde la sección
+      <strong>Mis postulaciones</strong>.
+    </p>
+
+    <p class="success-email">
+      Se enviará un correo de confirmación a tu dirección de email registrada.
+    </p>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="center" class="success-actions">
+    <button mat-flat-button type="button" class="success-button" (click)="cerrarExito()">
+      <mat-icon>check</mat-icon>
+      Aceptar
+    </button>
+  </mat-dialog-actions>
+}

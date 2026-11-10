@@ -1,0 +1,145 @@
+<div class="auth-page">
+  <mat-card class="auth-card">
+    <mat-card-content>
+      <div class="auth-header">
+        <img src="logo.png" alt="Logo Actos Adultos" class="auth-logo" />
+
+        <h1>Crear cuenta</h1>
+
+        <p>Registrate para postularte a cargos docentes.</p>
+      </div>
+
+      @if (successMessage) {
+        <div class="success-container">
+          <mat-icon class="success-icon"> mark_email_read </mat-icon>
+
+          <h2>Revisá tu correo electrónico</h2>
+
+          <p>{{ successMessage }}</p>
+
+          <button mat-flat-button type="button" (click)="goToLogin()">Ir a iniciar sesión</button>
+
+          <button mat-button type="button" [disabled]="loading" (click)="resendConfirmation()">
+            Reenviar confirmación
+          </button>
+        </div>
+      } @else {
+        <form [formGroup]="form" (ngSubmit)="register()">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Correo electrónico</mat-label>
+
+            <mat-icon matPrefix>email</mat-icon>
+
+            <input
+              matInput
+              type="email"
+              formControlName="email"
+              autocomplete="email"
+              placeholder="ejemplo@correo.com"
+            />
+
+            @if (email.hasError('required') && email.touched) {
+              <mat-error>El correo es obligatorio.</mat-error>
+            } @else if (email.hasError('email') && email.touched) {
+              <mat-error>Ingresá un correo válido.</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Contraseña</mat-label>
+
+            <mat-icon matPrefix>lock</mat-icon>
+
+            <input
+              matInput
+              formControlName="password"
+              [type]="hidePassword ? 'password' : 'text'"
+              autocomplete="new-password"
+            />
+
+            <button
+              mat-icon-button
+              matSuffix
+              type="button"
+              [attr.aria-label]="hidePassword ? 'Mostrar contraseña' : 'Ocultar contraseña'"
+              (click)="hidePassword = !hidePassword"
+            >
+              <mat-icon>
+                {{ hidePassword ? 'visibility_off' : 'visibility' }}
+              </mat-icon>
+            </button>
+
+            @if (password.hasError('required') && password.touched) {
+              <mat-error>La contraseña es obligatoria.</mat-error>
+            } @else if (password.hasError('minlength') && password.touched) {
+              <mat-error>Mínimo 6 caracteres.</mat-error>
+            } @else if (password.hasError('pattern') && password.touched) {
+              <mat-error> Debe contener una minúscula y un número. </mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Confirmar contraseña</mat-label>
+
+            <mat-icon matPrefix>verified_user</mat-icon>
+
+            <input
+              matInput
+              formControlName="confirmPassword"
+              [type]="hideConfirmPassword ? 'password' : 'text'"
+              autocomplete="new-password"
+              [errorStateMatcher]="isConfirmPasswordError"
+            />
+
+            <button
+              mat-icon-button
+              matSuffix
+              type="button"
+              [attr.aria-label]="hideConfirmPassword ? 'Mostrar contraseña' : 'Ocultar contraseña'"
+              (click)="hideConfirmPassword = !hideConfirmPassword"
+            >
+              <mat-icon>
+                {{ hideConfirmPassword ? 'visibility_off' : 'visibility' }}
+              </mat-icon>
+            </button>
+
+            @if (confirmPassword.hasError('required') && confirmPassword.touched) {
+              <mat-error>Confirmá tu contraseña.</mat-error>
+            } @else if (form.hasError('passwordMismatch') && confirmPassword.touched) {
+              <mat-error>Las contraseñas no coinciden.</mat-error>
+            }
+          </mat-form-field>
+
+          <div class="password-hint">
+            <mat-icon>info_outline</mat-icon>
+            <span>
+              La contraseña debe tener al menos 6 caracteres, una letra minúscula y un número.
+            </span>
+          </div>
+
+          @if (errorMessage) {
+            <div class="auth-error" role="alert">
+              <mat-icon>error_outline</mat-icon>
+              <span>{{ errorMessage }}</span>
+            </div>
+          }
+
+          <button mat-flat-button type="submit" class="submit-button" [disabled]="loading">
+            @if (loading) {
+              <mat-spinner diameter="20"></mat-spinner>
+            } @else {
+              <mat-icon>person_add</mat-icon>
+            }
+
+            <span>{{ loading ? 'Registrando...' : 'Crear cuenta' }}</span>
+          </button>
+        </form>
+
+        <div class="auth-footer">
+          <span>¿Ya tenés una cuenta?</span>
+          <a routerLink="/login">Iniciá sesión</a>
+        </div>
+      }
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,0 +1,146 @@
+mat-dialog-content {
+  padding-top: 12px !important;
+  max-height: 70dvh;
+}
+
+.dialog-description {
+  margin: 0 0 24px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.date-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+
+  mat-form-field {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+.dialog-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 12px;
+  margin-top: 8px;
+  background: var(--mat-sys-error-container);
+  color: var(--mat-sys-on-error-container);
+  border-radius: 8px;
+  font-size: 13px;
+
+  mat-icon {
+    flex-shrink: 0;
+  }
+}
+
+mat-dialog-actions {
+  padding: 12px 24px 20px;
+  gap: 8px;
+}
+
+@media (max-width: 600px) {
+  .date-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  mat-dialog-actions {
+    padding: 12px 16px 16px;
+  }
+
+  mat-dialog-actions button {
+    flex: 1;
+  }
+}
+
+.estados-section {
+  margin-top: 12px;
+  padding-top: 24px;
+  border-top: 1px solid var(--mat-sys-outline-variant);
+
+  h3 {
+    margin: 0 0 6px;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--mat-sys-on-surface);
+  }
+}
+
+.estados-description {
+  margin: 0 0 20px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.estado-item {
+  padding: 16px;
+  margin-bottom: 12px;
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: 10px;
+  background: var(--mat-sys-surface-container-low);
+}
+
+.estado-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.estado-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.estado-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--mat-sys-on-surface);
+}
+
+.estado-value {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--mat-sys-on-surface-variant);
+
+  &.activo {
+    color: #15803d;
+  }
+}
+
+.estado-help {
+  margin: 12px 0 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+mat-slide-toggle {
+  flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+  .estado-item {
+    padding: 14px 12px;
+  }
+
+  .estado-title {
+    font-size: 13px;
+  }
+
+  .estado-help {
+    font-size: 12px;
+  }
+}

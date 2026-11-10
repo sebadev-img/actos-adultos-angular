@@ -1,0 +1,240 @@
+<div class="detalle-container">
+  <button mat-button type="button" class="back-button" (click)="volver()">
+    <mat-icon>arrow_back</mat-icon>
+    Mis postulaciones
+  </button>
+
+  @if (inscripcion; as item) {
+    <div class="page-header">
+      <div>
+        <span class="eyebrow"> Detalle de postulación </span>
+
+        <h1>{{ item.cargo.descripcion }}</h1>
+
+        <p>
+          {{ item.cargo.institucionNombre }}
+        </p>
+      </div>
+
+      <span
+        class="estado-badge"
+        [class.inscripto]="item.estadoInscripcion === 0"
+        [class.asignado]="item.estadoInscripcion === 1"
+      >
+        {{ getNombreEstado(item.estadoInscripcion) }}
+      </span>
+    </div>
+
+    <section class="detail-card">
+      <div class="section-title">
+        <mat-icon>work_outline</mat-icon>
+
+        <h2>Información del cargo</h2>
+      </div>
+
+      <div class="details-grid">
+        <div class="detail-item">
+          <span>Acto</span>
+
+          <strong>
+            {{ item.cargo.actoNumero }}
+            {{ item.cargo.actoDescripcion }}
+          </strong>
+        </div>
+
+        <div class="detail-item">
+          <span>Institución</span>
+
+          <strong>
+            {{ item.cargo.institucionNombre }}
+          </strong>
+        </div>
+
+        <div class="detail-item">
+          <span>Orientación</span>
+
+          <strong>
+            {{ item.cargo.orientacionDescripcion }}
+          </strong>
+        </div>
+
+        <div class="detail-item">
+          <span>Turno</span>
+
+          <strong>
+            {{ getNombreTurno(item.cargo.turno) }}
+          </strong>
+        </div>
+
+        <div class="detail-item">
+          <span>Revista</span>
+
+          <strong>
+            {{ getNombreRevista(item.cargo.revista) }}
+          </strong>
+        </div>
+
+        <div class="detail-item">
+          <span>Curso / División</span>
+
+          <strong>
+            {{ item.cargo.curso }}° -
+            {{ item.cargo.division }}
+          </strong>
+        </div>
+
+        <div class="detail-item">
+          <span>Carga horaria</span>
+
+          <strong>
+            {{ item.cargo.cargaHoraria }}
+          </strong>
+        </div>
+
+        <div class="detail-item">
+          <span>Número de llamado</span>
+
+          <strong>
+            {{ item.cargo.numeroLlamado }}
+          </strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="detail-card">
+      <div class="section-title">
+        <mat-icon>how_to_reg</mat-icon>
+
+        <h2>Información de tu inscripción</h2>
+      </div>
+
+      <div class="details-grid">
+        <div class="detail-item">
+          <span>Fecha de inscripción</span>
+
+          <strong>
+            {{ item.fechaCreacion | date: 'dd/MM/yyyy HH:mm' }}
+          </strong>
+        </div>
+
+        <div class="detail-item">
+          <span>Estado</span>
+
+          <strong>
+            {{ getNombreEstado(item.estadoInscripcion) }}
+          </strong>
+        </div>
+
+        <div class="detail-item">
+          <span>Puntaje Junta</span>
+
+          <strong>
+            {{ item.puntajeJunta !== null ? item.puntajeJunta : 'Sin datos' }}
+          </strong>
+        </div>
+
+        <div class="detail-item">
+          <span>Carácter</span>
+
+          <strong>
+            {{ getNombreCaracter(item.caracter) }}
+          </strong>
+        </div>
+      </div>
+    </section>
+    <!-- LISTADO DE INSCRIPTOS -->
+    <section class="detail-card">
+      <div class="section-title inscriptos-header">
+        <div class="inscriptos-title">
+          <mat-icon>groups</mat-icon>
+
+          <div>
+            <h2>Inscriptos al cargo</h2>
+
+            <p>
+              {{ totalItems }}
+              {{ totalItems === 1 ? 'inscripto' : 'inscriptos' }}
+            </p>
+          </div>
+        </div>
+
+        <button
+          mat-icon-button
+          type="button"
+          aria-label="Actualizar listado"
+          (click)="cargarInscriptos()"
+        >
+          <mat-icon>refresh</mat-icon>
+        </button>
+      </div>
+
+      @if (loadingInscriptos) {
+        <div class="inscriptos-loading">
+          <mat-spinner diameter="32"></mat-spinner>
+
+          <span> Cargando inscriptos... </span>
+        </div>
+      } @else if (inscriptosErrorMessage) {
+        <div class="inscriptos-error">
+          <mat-icon>error_outline</mat-icon>
+
+          <span>
+            {{ inscriptosErrorMessage }}
+          </span>
+
+          <button mat-button type="button" (click)="cargarInscriptos()">Reintentar</button>
+        </div>
+      } @else if (inscriptos.length === 0) {
+        <div class="inscriptos-empty">
+          <mat-icon>group_off</mat-icon>
+
+          <p>No hay inscriptos para este cargo.</p>
+        </div>
+      } @else {
+        <div class="inscriptos-table-responsive">
+          <table mat-table [dataSource]="inscriptos" class="inscriptos-table">
+            <!-- NOMBRE -->
+            <ng-container matColumnDef="nombreCompleto">
+              <th mat-header-cell *matHeaderCellDef>Nombre completo</th>
+
+              <td mat-cell *matCellDef="let item">
+                {{ item.postulante.nombreCompleto }}
+              </td>
+            </ng-container>
+
+            <!-- PUNTAJE -->
+            <ng-container matColumnDef="puntajeJunta">
+              <th mat-header-cell *matHeaderCellDef>Puntaje Junta</th>
+
+              <td mat-cell *matCellDef="let item">
+                @if (item.puntajeJunta !== null && item.puntajeJunta !== undefined) {
+                  <strong>
+                    {{ item.puntajeJunta }}
+                  </strong>
+                } @else {
+                  <span class="sin-puntaje"> Sin datos </span>
+                }
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+        </div>
+
+        @if (totalItems > pageSize) {
+          <mat-paginator
+            [length]="totalItems"
+            [pageIndex]="page - 1"
+            [pageSize]="pageSize"
+            [pageSizeOptions]="[10, 20, 50, 100]"
+            [showFirstLastButtons]="true"
+            (page)="cambiarPagina($event)"
+          >
+          </mat-paginator>
+        }
+      }
+    </section>
+  }
+</div>

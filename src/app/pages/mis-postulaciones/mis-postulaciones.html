@@ -1,0 +1,106 @@
+<div class="mis-postulaciones-container">
+  <div class="page-header">
+    <div>
+      <h1>Mis postulaciones</h1>
+
+      <p>Consultá los cargos a los que te postulaste.</p>
+    </div>
+
+    <button
+      mat-icon-button
+      type="button"
+      aria-label="Actualizar postulaciones"
+      (click)="cargarPostulaciones()"
+    >
+      <mat-icon>refresh</mat-icon>
+    </button>
+  </div>
+
+  @if (loading) {
+    <div class="feedback-panel">
+      <mat-spinner diameter="36"></mat-spinner>
+
+      <p>Cargando tus postulaciones...</p>
+    </div>
+  } @else if (errorMessage) {
+    <div class="feedback-panel error-panel">
+      <mat-icon>error_outline</mat-icon>
+
+      <h3>No se pudieron cargar las postulaciones</h3>
+
+      <p>{{ errorMessage }}</p>
+
+      <button mat-flat-button type="button" (click)="cargarPostulaciones()">
+        <mat-icon>refresh</mat-icon>
+        Reintentar
+      </button>
+    </div>
+  } @else if (postulaciones.length === 0) {
+    <div class="feedback-panel empty-panel">
+      <mat-icon>work_off</mat-icon>
+
+      <h3>No tenés postulaciones</h3>
+
+      <p>Todavía no realizaste ninguna inscripción a un cargo.</p>
+    </div>
+  } @else {
+    <div class="postulaciones-list">
+      @for (inscripcion of postulaciones; track inscripcion.id) {
+        <article class="postulacion-card">
+          <div class="postulacion-icon">
+            <mat-icon>how_to_reg</mat-icon>
+          </div>
+
+          <div class="postulacion-content">
+            <p class="postulacion-text">
+              Realizaste una inscripción al cargo
+
+              <strong>
+                {{ inscripcion.cargo.descripcion }}
+              </strong>
+
+              el día
+
+              <strong>
+                {{ inscripcion.fechaCreacion | date: 'dd/MM/yyyy' }} </strong
+              >.
+            </p>
+
+            <div class="postulacion-meta">
+              <span>
+                <mat-icon>account_balance</mat-icon>
+
+                {{ inscripcion.cargo.institucionNombre }}
+              </span>
+
+              <span
+                class="estado-badge"
+                [class.inscripto]="inscripcion.estadoInscripcion === 0"
+                [class.asignado]="inscripcion.estadoInscripcion === 1"
+              >
+                {{ getNombreEstado(inscripcion.estadoInscripcion) }}
+              </span>
+            </div>
+          </div>
+
+          <div class="postulacion-actions">
+            <button mat-stroked-button type="button" (click)="verDetalle(inscripcion)">
+              <mat-icon>visibility</mat-icon>
+              Ver más
+            </button>
+          </div>
+        </article>
+      }
+    </div>
+
+    <mat-paginator
+      [length]="totalItems"
+      [pageIndex]="page - 1"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="[5, 10, 20, 50]"
+      [showFirstLastButtons]="true"
+      (page)="cambiarPagina($event)"
+    >
+    </mat-paginator>
+  }
+</div>

@@ -1,0 +1,943 @@
+.inicio-container {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 24px;
+  box-sizing: border-box;
+  color: var(--mat-sys-on-surface);
+}
+
+// Dos columnas: contenido principal y filtros
+.inicio-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(290px, 1fr);
+  align-items: start;
+  gap: 24px;
+}
+
+.inicio-main,
+.inicio-sidebar {
+  min-width: 0;
+}
+
+// Banner
+.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  padding: 38px 42px;
+  margin-bottom: 24px;
+  border-radius: 18px;
+  background: var(--mat-sys-primary-container);
+  color: var(--mat-sys-on-primary-container);
+}
+
+.hero-brand {
+  margin-bottom: 18px;
+}
+
+.hero-brand-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.hero-ministerio {
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.2;
+
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+
+  color: var(--app-banner-text);
+}
+
+.hero-gobierno {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+
+  letter-spacing: 0.25px;
+  text-transform: uppercase;
+
+  color: var(--app-banner-text);
+  opacity: 0.8;
+}
+
+.hero-content {
+  max-width: 740px;
+  min-width: 0;
+}
+
+.hero-eyebrow {
+  display: block;
+
+  margin-bottom: 16px;
+
+  font-size: clamp(24px, 3vw, 34px);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: 0.3px;
+
+  color: var(--app-banner-eyebrow);
+  opacity: 1;
+}
+
+.hero h1 {
+  margin: 0 0 12px;
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.hero p {
+  margin: 0;
+  max-width: 680px;
+  font-size: 15px;
+  line-height: 1.65;
+  opacity: 0.9;
+}
+
+.hero-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  margin-top: 26px;
+}
+
+.hero-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+
+  strong {
+    font-size: 26px;
+    line-height: 1;
+  }
+
+  span {
+    font-size: 12px;
+    opacity: 0.85;
+  }
+}
+
+.hero-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 110px;
+  height: 110px;
+  border-radius: 24px;
+  background: rgb(255 255 255 / 15%);
+
+  mat-icon {
+    width: 58px;
+    height: 58px;
+    font-size: 58px;
+  }
+}
+
+// Panel de filtros
+.filters-panel {
+  padding: 22px 18px 18px;
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: 14px;
+  background: var(--mat-sys-surface);
+}
+
+.filters-header {
+  margin-bottom: 22px;
+
+  h2 {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin: 0 0 6px;
+    font-size: 18px;
+    font-weight: 600;
+
+    mat-icon {
+      width: 21px;
+      height: 21px;
+      font-size: 21px;
+      color: var(--mat-sys-primary);
+    }
+  }
+
+  p {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--mat-sys-on-surface-variant);
+  }
+}
+
+.filters-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  mat-form-field {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+.clear-button {
+  width: 100%;
+  margin-top: 8px;
+}
+
+// filtros celular
+// ==========================================
+// FILTRO PARA CELULAR
+// ==========================================
+
+.mobile-filters {
+  display: none;
+}
+
+.mobile-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  mat-icon {
+    position: absolute;
+    left: 13px;
+
+    width: 20px;
+    height: 20px;
+    font-size: 20px;
+
+    color: var(--mat-sys-on-surface-variant);
+    pointer-events: none;
+  }
+
+  input {
+    width: 100%;
+    height: 46px;
+
+    padding: 0 14px 0 42px;
+
+    border: 1px solid var(--mat-sys-outline-variant);
+    border-radius: 12px;
+
+    outline: none;
+
+    background: var(--mat-sys-surface);
+    color: var(--mat-sys-on-surface);
+
+    font: inherit;
+    font-size: 14px;
+
+    transition:
+      border-color 0.15s ease,
+      box-shadow 0.15s ease;
+
+    &:focus {
+      border-color: var(--mat-sys-primary);
+
+      box-shadow: 0 0 0 2px color-mix(in srgb, var(--mat-sys-primary) 15%, transparent);
+    }
+
+    &::placeholder {
+      color: var(--mat-sys-on-surface-variant);
+    }
+  }
+}
+
+.mobile-filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mobile-filter-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.mobile-filter-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.filter-badge {
+  appearance: none;
+
+  padding: 7px 12px;
+
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: 999px;
+
+  background: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+
+  &.active {
+    border-color: var(--mat-sys-primary);
+
+    background: var(--mat-sys-primary);
+    color: var(--mat-sys-on-primary);
+  }
+}
+
+// Resultados
+.results {
+  min-width: 0;
+  min-height: 260px;
+}
+
+.list-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 18px;
+  font-size: 13px;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+// Dos cards por fila en escritorio
+.cargos-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.cargo-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-left-width: 5px;
+
+  border-radius: 14px;
+  background: var(--mat-sys-surface);
+
+  transition:
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+
+  // SUPLENTE - NARANJA
+  &.revista-suplente {
+    border-left-color: #d97706;
+  }
+
+  // INTERINO - AZUL
+  &.revista-interino {
+    border-left-color: #3b82f6;
+  }
+
+  &:hover {
+    box-shadow: 0 6px 20px rgb(0 0 0 / 7%);
+  }
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 18px 20px 0;
+}
+
+.card-institucion {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  min-width: 0;
+  color: var(--mat-sys-on-surface-variant);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+
+  mat-icon {
+    flex-shrink: 0;
+    width: 19px;
+    height: 19px;
+    font-size: 19px;
+    color: var(--mat-sys-primary);
+  }
+
+  span {
+    overflow-wrap: anywhere;
+  }
+}
+
+.revista-badge {
+  flex-shrink: 0;
+
+  padding: 5px 9px;
+  border-radius: 6px;
+
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+
+  // SUPLENTE - NARANJA
+  &.revista-suplente {
+    background: #ffedd5;
+    color: #9a3412;
+  }
+
+  // INTERINO - AZUL
+  &.revista-interino {
+    background: #dbeafe;
+    color: #1d4ed8;
+  }
+}
+
+.card-main {
+  flex: 1;
+  min-width: 0;
+  padding: 16px 20px 20px;
+}
+
+.cargo-title {
+  margin: 0 0 13px;
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.cargo-details {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.detail {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+
+  span {
+    font-size: 13px;
+    color: var(--mat-sys-on-surface-variant);
+  }
+
+  strong {
+    font-size: 15px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+  }
+}
+
+// Horarios
+.horarios-section {
+  padding: 15px 20px;
+  background: var(--mat-sys-surface-container-low);
+  border-top: 1px solid var(--mat-sys-outline-variant);
+}
+
+.horarios-title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 11px;
+  font-size: 14px;
+  font-weight: 600;
+
+  mat-icon {
+    width: 19px;
+    height: 19px;
+    font-size: 19px;
+  }
+}
+
+.horarios-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.horario-chip {
+  padding: 6px 8px;
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: 6px;
+  background: var(--mat-sys-surface);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.sin-horarios {
+  color: var(--mat-sys-on-surface-variant);
+  font-size: 13px;
+}
+
+// Carga, errores y estados vacíos
+.feedback-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  min-height: 260px;
+  padding: 30px;
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: 14px;
+  background: var(--mat-sys-surface);
+  text-align: center;
+
+  > mat-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 50px;
+    color: var(--mat-sys-on-surface-variant);
+  }
+
+  h3,
+  p {
+    margin: 0;
+  }
+
+  h3 {
+    font-size: 17px;
+    font-weight: 600;
+  }
+
+  p {
+    max-width: 420px;
+    color: var(--mat-sys-on-surface-variant);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+}
+
+.error-panel > mat-icon {
+  color: var(--mat-sys-error);
+}
+
+// Notebook
+@media (max-width: 1200px) {
+  .inicio-layout {
+    grid-template-columns: minmax(0, 1fr) 290px;
+    gap: 18px;
+  }
+
+  .hero {
+    padding: 30px 28px;
+  }
+  .hero-icon {
+    display: none;
+  }
+  .cargo-details {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+// Tablet: banner, filtros y cargos, en ese orden
+@media (max-width: 800px) {
+  .inicio-container {
+    padding: 16px;
+  }
+
+  .inicio-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .inicio-main {
+    display: contents;
+  }
+
+  .hero {
+    order: 1;
+    width: 100%;
+    margin: 0;
+    box-sizing: border-box;
+  }
+
+  .inicio-sidebar {
+    order: 2;
+    width: 100%;
+  }
+
+  .results {
+    order: 3;
+    width: 100%;
+  }
+
+  .filters-panel {
+    padding: 20px 18px 10px;
+  }
+
+  .filters-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 14px;
+  }
+}
+
+// Celular
+@media (max-width: 600px) {
+  .inicio-container {
+    padding: 0;
+  }
+
+  .inicio-layout {
+    gap: 16px;
+  }
+
+  // ======================================
+  // BANNER FULL WIDTH
+  // ======================================
+
+  .hero {
+    width: 100vw;
+
+    // Sale del padding del layout general
+    // y ocupa todo el ancho del teléfono.
+    margin-left: calc(50% - 50vw);
+
+    // El app-content tiene 16px de padding
+    // entre 481px y 600px.
+    margin-top: -16px;
+    margin-bottom: 0;
+
+    padding: 24px 20px;
+
+    border-radius: 0;
+
+    box-sizing: border-box;
+  }
+
+  .hero-brand {
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .hero-ministerio {
+    font-size: 13px;
+  }
+
+  .hero-gobierno {
+    font-size: 10px;
+  }
+
+  .hero-eyebrow {
+    margin-bottom: 14px;
+    font-size: 25px;
+    line-height: 1.15;
+  }
+
+  .hero h1 {
+    font-size: 26px;
+  }
+
+  .hero p {
+    font-size: 13px;
+  }
+
+  .hero-stats {
+    gap: 20px;
+  }
+
+  .hero-stat strong {
+    font-size: 23px;
+  }
+
+  // ======================================
+  // OCULTAR FILTRO DESKTOP
+  // ======================================
+
+  .inicio-sidebar {
+    display: none;
+  }
+
+  // ======================================
+  // MOSTRAR FILTRO MOBILE
+  // ======================================
+
+  .mobile-filters {
+    order: 2;
+
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .results {
+    order: 3;
+  }
+
+  // ======================================
+  // CARDS
+  // ======================================
+
+  .card-top {
+    padding: 16px 16px 0;
+  }
+
+  .card-main {
+    padding: 15px 16px 18px;
+  }
+
+  .cargo-title {
+    font-size: 19px;
+  }
+
+  .detail strong {
+    font-size: 14px;
+  }
+
+  .cargo-details {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .horarios-section {
+    padding: 14px 16px;
+  }
+
+  .feedback-panel {
+    min-height: 220px;
+    padding: 24px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    margin-top: -12px;
+  }
+}
+
+@media (max-width: 380px) {
+  .inicio-container {
+    padding: 0;
+  }
+
+  .hero {
+    padding: 20px 16px;
+  }
+
+  .hero-eyebrow {
+    font-size: 22px;
+  }
+
+  .hero-ministerio {
+    font-size: 12px;
+  }
+
+  .hero h1 {
+    font-size: 23px;
+  }
+
+  .hero-stats {
+    gap: 16px;
+  }
+
+  .card-top {
+    flex-wrap: wrap;
+  }
+}
+
+// ==========================================
+// PALETA MULTICOLOR PARA INICIO
+// Colores de acento sin cambiar el tema Material global.
+// color-mix respeta el color de superficie en temas claros y oscuros.
+// ==========================================
+
+// Banner verde petróleo con un toque cálido
+.hero {
+  background: linear-gradient(
+    120deg,
+    var(--app-primary) 0%,
+    var(--app-primary-mid) 65%,
+    var(--app-primary-end) 100%
+  );
+  color: var(--app-banner-text);
+  box-shadow: 0 9px 26px rgb(0 0 0 / 12%);
+}
+
+.hero-eyebrow {
+  color: var(--app-banner-eyebrow);
+}
+
+.hero-stat strong {
+  color: var(--app-banner-stat);
+}
+
+.hero-icon {
+  background: rgb(255 255 255 / 13%);
+  border: 1px solid rgb(255 255 255 / 22%);
+}
+
+// Panel de filtros: acento coral, sin teñir todo de azul
+.filters-panel {
+  border-top: 4px solid var(--app-secondary);
+  box-shadow: 0 5px 20px rgb(35 44 55 / 5%);
+}
+
+.filters-header h2 mat-icon {
+  color: var(--app-secondary);
+}
+
+// ==========================================
+// FILTROS - COLORES DINÁMICOS
+// ==========================================
+
+// PANEL PRINCIPAL
+.filters-panel {
+  background: color-mix(in srgb, var(--app-primary) 4%, var(--mat-sys-surface));
+
+  border: 1px solid color-mix(in srgb, var(--app-primary) 25%, var(--mat-sys-surface));
+
+  border-top: 4px solid var(--app-primary);
+
+  border-radius: 14px;
+}
+
+// TÍTULO DEL PANEL
+.filters-header {
+  h2 {
+    color: var(--app-primary-dark);
+
+    mat-icon {
+      color: var(--app-primary);
+    }
+  }
+
+  p {
+    color: var(--mat-sys-on-surface-variant);
+  }
+}
+
+// CAMPOS DE BÚSQUEDA Y SELECTORES
+.filters-grid {
+  mat-form-field {
+    --mdc-outlined-text-field-outline-color: color-mix(
+      in srgb,
+      var(--app-primary) 30%,
+      var(--mat-sys-outline)
+    );
+
+    --mdc-outlined-text-field-hover-outline-color: var(--app-primary);
+
+    --mdc-outlined-text-field-focus-outline-color: var(--app-primary);
+
+    --mat-form-field-focus-select-arrow-color: var(--app-primary);
+  }
+}
+
+// ÍCONO DE BÚSQUEDA
+.filters-grid mat-icon[matSuffix] {
+  color: var(--app-primary);
+}
+
+// BOTÓN LIMPIAR FILTROS
+.clear-button {
+  --mat-outlined-button-outline-color: var(--app-primary);
+  --mat-outlined-button-label-text-color: var(--app-primary);
+  --mat-outlined-button-state-layer-color: var(--app-primary);
+
+  border-radius: 8px;
+}
+
+// EFECTO HOVER DEL BOTÓN
+.clear-button:not(:disabled):hover {
+  background: color-mix(in srgb, var(--app-primary) 8%, var(--mat-sys-surface));
+}
+
+// Presentación compacta de cargos
+.cargo-card {
+  border-left: 4px solid var(--app-primary);
+}
+.cargo-details {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.horarios-section {
+  background: color-mix(in srgb, var(--app-primary) 8%, var(--mat-sys-surface));
+}
+.horario-chip {
+  background: color-mix(in srgb, var(--app-primary) 16%, var(--mat-sys-surface));
+}
+.revista-badge {
+  background: var(--app-amber-soft);
+}
+.card-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+
+  padding: 12px 18px 16px;
+  border-top: 1px solid var(--mat-sys-outline-variant);
+
+  button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+
+    min-height: 40px;
+    font-size: 14px;
+  }
+
+  .postular-button {
+    min-width: 130px;
+  }
+
+  mat-spinner {
+    flex: 0 0 auto;
+  }
+}
+@media (max-width: 1340px) {
+  .cargos-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 800px) {
+  .cargos-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 680px) {
+  .cargos-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .card-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+
+    padding: 12px 16px 16px;
+
+    button {
+      width: 100%;
+    }
+
+    .postular-button {
+      min-width: 0;
+    }
+  }
+}

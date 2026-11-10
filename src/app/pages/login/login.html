@@ -1,0 +1,104 @@
+<div class="auth-page">
+  <mat-card class="auth-card">
+    <mat-card-content>
+      <div class="auth-header">
+        <img src="logo.png" alt="Logo Actos Adultos" class="auth-logo" />
+
+        <h1>Iniciar sesión</h1>
+
+        <p>Ingresá con tu cuenta para acceder al sistema.</p>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="login()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Correo electrónico</mat-label>
+
+          <mat-icon matPrefix>email</mat-icon>
+
+          <input
+            matInput
+            type="email"
+            formControlName="email"
+            autocomplete="username"
+            placeholder="ejemplo@correo.com"
+          />
+
+          @if (email.hasError('required') && email.touched) {
+            <mat-error>El correo es obligatorio.</mat-error>
+          } @else if (email.hasError('email') && email.touched) {
+            <mat-error>Ingresá un correo válido.</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Contraseña</mat-label>
+
+          <mat-icon matPrefix>lock</mat-icon>
+
+          <input
+            matInput
+            [type]="hidePassword ? 'password' : 'text'"
+            formControlName="password"
+            autocomplete="current-password"
+          />
+
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            [attr.aria-label]="hidePassword ? 'Mostrar contraseña' : 'Ocultar contraseña'"
+            (click)="hidePassword = !hidePassword"
+          >
+            <mat-icon>
+              {{ hidePassword ? 'visibility_off' : 'visibility' }}
+            </mat-icon>
+          </button>
+
+          @if (password.hasError('required') && password.touched) {
+            <mat-error>La contraseña es obligatoria.</mat-error>
+          }
+        </mat-form-field>
+
+        <div class="forgot-password-row">
+          <a routerLink="/forgot-password" class="forgot-password-link">
+            ¿Olvidaste tu contraseña?
+          </a>
+        </div>
+
+        @if (errorMessage) {
+          <div class="auth-error" role="alert">
+            <mat-icon>error_outline</mat-icon>
+            <span>{{ errorMessage }}</span>
+          </div>
+        }
+
+        @if (emailNotConfirmed) {
+          <button
+            mat-button
+            type="button"
+            class="resend-button"
+            [disabled]="loading"
+            (click)="resendConfirmation()"
+          >
+            Reenviar correo de confirmación
+          </button>
+        }
+
+        <button mat-flat-button type="submit" class="submit-button" [disabled]="loading">
+          @if (loading) {
+            <mat-spinner diameter="20"></mat-spinner>
+          } @else {
+            <mat-icon>login</mat-icon>
+          }
+
+          <span>{{ loading ? 'Ingresando...' : 'Iniciar sesión' }}</span>
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        <span>¿Todavía no tenés una cuenta?</span>
+        <a routerLink="/register">Registrate</a>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

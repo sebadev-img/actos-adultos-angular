@@ -1,0 +1,75 @@
+<h2 mat-dialog-title>Detalle del cargo</h2>
+<mat-dialog-content>
+  <div class="dialog-intro">
+    <h3>{{ data.cargo.descripcion }}</h3>
+    <span>{{ data.cargo.institucionNombre }}</span>
+  </div>
+
+  <h4>Información del acto</h4>
+  <div class="info-grid">
+    <div class="info-item">
+      <span>Número de acto</span><strong>{{ data.acto.numero }}</strong>
+    </div>
+    <div class="info-item">
+      <span>Descripción del acto</span><strong>{{ data.acto.descripcion }}</strong>
+    </div>
+    <div class="info-item">
+      <span>Inicio</span><strong>{{ data.acto.inicio | date: 'dd/MM/yyyy HH:mm' }}</strong>
+    </div>
+    <div class="info-item">
+      <span>Fin</span><strong>{{ data.acto.fin | date: 'dd/MM/yyyy HH:mm' }}</strong>
+    </div>
+  </div>
+
+  <h4>Información del cargo</h4>
+  <div class="info-grid">
+    <div class="info-item">
+      <span>Institución</span><strong>{{ data.cargo.institucionNombre }}</strong>
+    </div>
+    <div class="info-item">
+      <span>Orientación</span><strong>{{ data.cargo.orientacionDescripcion }}</strong>
+    </div>
+    <div class="info-item">
+      <span>Turno</span><strong>{{ getNombreTurno(data.cargo.turno) }}</strong>
+    </div>
+    <div class="info-item">
+      <span>Revista</span><strong>{{ getNombreRevista(data.cargo.revista) }}</strong>
+    </div>
+    <div class="info-item">
+      <span>Curso</span><strong>{{ data.cargo.curso }}</strong>
+    </div>
+    <div class="info-item">
+      <span>División</span><strong>{{ data.cargo.division }}</strong>
+    </div>
+    <div class="info-item">
+      <span>Carga horaria</span><strong>{{ data.cargo.cargaHoraria }}</strong>
+    </div>
+    <div class="info-item">
+      <span>Número de llamado</span><strong>{{ data.cargo.numeroLLamado }}</strong>
+    </div>
+    <div class="info-item">
+      <span>Código</span><strong>{{ data.cargo.codigo }}</strong>
+    </div>
+    <div class="info-item">
+      <span>Código Junta</span><strong>{{ data.cargo.codigoJunta }}</strong>
+    </div>
+    <div class="info-item">
+      <span>Plaza SUNA</span><strong>{{ data.cargo.plazaSUNA }}</strong>
+    </div>
+  </div>
+
+  <h4>Horarios</h4>
+  <div class="horarios">
+    @for (horario of data.cargo.horarios; track $index) {
+      <span class="horario">
+        {{ dias[horario.diaSemana] }} · {{ horario.horaInicio.slice(0, 5) }} -
+        {{ horario.horaFin.slice(0, 5) }}
+      </span>
+    } @empty {
+      <p>No se informaron horarios.</p>
+    }
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-flat-button type="button" (click)="cerrar()">Cerrar</button>
+</mat-dialog-actions>
